@@ -2710,5 +2710,261 @@
 })();
 </script>
 <!-- === /Behavior patch v3 === -->
+
+<!-- === Behavior patch (required fix + robust eventType + duration displays + step11 submit) === -->
+<script>
+(function() {
+  const $ = (sel, root=document) => root.querySelector(sel);
+
+  function normEvt(s="") {
+    const t = String(s).toLowerCase();
+    if (t.includes("coupon") || t.includes("쿠폰")) return "coupon";
+    if (t.includes("menu") || t.includes("메뉴")) return "menu";
+    return "";
+  }
+  function detectEventType() {
+    const r = document.querySelector('input[name="eventType"]:checked');
+    if (r) {
+      const byVal = normEvt(r.value);
+      if (byVal) return byVal;
+      const byLabel = normEvt(r.labels?.[0]?.textContent || "");
+      if (byLabel) return byLabel;
+    }
+    const el = document.getElementById("eventType") || document.querySelector('[name="eventType"]');
+    if (el) {
+      const byEl = normEvt(el.value || el.textContent || "");
+      if (byEl) return byEl;
+    }
+    const menuEl = document.getElementById("menuEvent");
+    if (menuEl && (menuEl.checked || menuEl.value === "menu")) return "menu";
+    const couponEl = document.getElementById("couponEvent");
+    if (couponEl && (couponEl.checked || couponEl.value === "coupon")) return "coupon";
+    const w = normEvt(window.eventType);
+    return w || "";
+  }
+
+  function minutesFromHHMM(v) {
+    if (!v) return null;
+    const p = v.split(':');
+    if (p.length !== 2) return null;
+    const hh = Number(p[0]), mm = Number(p[1]);
+    if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
+    return hh * 60 + mm;
+  }
+  function format30(mins) {
+    if (mins == null || mins <= 0) return "";
+    const rounded = Math.round(mins / 30) * 30;
+    const h = Math.floor(rounded / 60);
+    const m = rounded % 60;
+    if (m === 0) return `총 ${h}시간`;
+    if (m === 30) return `총 ${h}시간 30분`;
+    return `총 ${h}시간 ${m}분`;
+  }
+  function inclusiveDays(s, e) {
+    if (!s || !e) return null;
+    const sd = new Date(s + "T00:00:00");
+    const ed = new Date(e + "T00:00:00");
+    if (isNaN(sd) || isNaN(ed)) return null;
+    const diff = (ed - sd) / (1000*60*60*24);
+    const days = Math.floor(diff) + 1;
+    return days > 0 ? days : null;
+  }
+
+  function isVisible(el) {
+    if (!el) return false;
+    if (el.type === "hidden") return false;
+    let node = el;
+    while (node) {
+      const st = window.getComputedStyle(node);
+      if (st.display === "none" || st.visibility === "hidden") return false;
+      node = node.parentElement;
+    }
+    return el.offsetParent !== null;
+  }
+
+  function toggleRequiredRules() {
+    const discountType = (window.discountType) || (($("#discountType")?.value) || "");
+    const amountEl = $("#discountAmount");
+    const percentEl = $("#discountPercent");
+    if (amountEl) amountEl.required = (discountType === "amount");
+    if (percentEl) percentEl.required = (discountType === "percent");
+
+    const allDay = $("#allDayEvent");
+    if (allDay && allDay.checked) {
+      $("#startTime") && ($("#startTime").required = false);
+      $("#endTime") && ($("#endTime").required = false);
+    }
+
+    const always = $("#alwaysEvent");
+    if (always && always.checked) {
+      $("#eventStartDate") && ($("#eventStartDate").required = false);
+      $("#eventEndDate") && ($("#eventEndDate").required = false);
+    }
+
+    const alwaysC = $("#alwaysCouponEvent");
+    if (alwaysC && alwaysC.checked) {
+      $("#couponStartDate") && ($("#couponStartDate").required = false);
+      $("#couponEndDate") && ($("#couponEndDate").required = false);
+    }
+
+    const evt = detectEventType();
+    if (evt === "menu") {
+      ["couponStartDate","couponEndDate",
+       "couponAmount1","couponAmount2","couponAmount3","couponAmount4","couponAmount5",
+       "minOrderAmount1","minOrderAmount2","minOrderAmount3","minOrderAmount4","minOrderAmount5"
+      ].forEach(id => { const el = document.getElementById(id); if (el) el.required = false; });
+    } else if (evt === "coupon") {
+      for (let i=1;i<=10;i++) {
+        const el = document.getElementById("menu"+i);
+        if (el) el.required = false;
+      }
+      if (amountEl) amountEl.required = false;
+      if (percentEl) percentEl.required = false;
+    }
+  }
+
+  function sanitizeRequiredBeforeSubmit(form) {
+    toggleRequiredRules();
+    const elements = form.querySelectorAll("input, select, textarea");
+    elements.forEach(el => {
+      if (!isVisible(el)) {
+        el.dataset._wasRequired = el.required ? "1" : "";
+        el.required = false;
+        el.dataset._wasDisabled = el.disabled ? "1" : "";
+        el.disabled = true;
+      }
+    });
+    return function restore() {
+      elements.forEach(el => {
+        if (el.dataset._wasRequired === "1") el.required = true;
+        if (el.dataset._wasDisabled !== "1") el.disabled = false;
+        delete el.dataset._wasRequired;
+        delete el.dataset._wasDisabled;
+      });
+    };
+  }
+
+  window.calculateTimeDuration = function() {
+    const display = document.getElementById('timeDurationDisplay');
+    const textEl  = document.getElementById('timeDurationText');
+    const allDay  = document.getElementById('allDayEvent');
+    const stSel   = document.getElementById('startTime');
+    const etSel   = document.getElementById('endTime');
+    if (!display || !textEl) return;
+
+    if (allDay && allDay.checked) {
+      display.style.display = 'block';
+      textEl.textContent = '영업시간 전체';
+      return;
+    }
+    const sVal = stSel?.value || "";
+    const eVal = etSel?.value || "";
+    if (!sVal || !eVal) { display.style.display = 'none'; textEl.textContent = ''; return; }
+
+    const s = minutesFromHHMM(sVal);
+    const e = minutesFromHHMM(eVal);
+    if (s == null || e == null) { display.style.display = 'none'; textEl.textContent = ''; return; }
+
+    const mins = (e <= s) ? (24*60 - s) + e : (e - s);
+    const out = format30(mins);
+    if (out) { display.style.display = 'block'; textEl.textContent = out; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
+  };
+
+  window.calculateDateDuration = function() {
+    const display = document.getElementById('dateDurationDisplay');
+    const textEl  = document.getElementById('dateDurationText');
+    const always  = document.getElementById('alwaysEvent');
+    const sEl     = document.getElementById('eventStartDate');
+    const eEl     = document.getElementById('eventEndDate');
+    if (!display || !textEl) return;
+
+    if (always && always.checked) { display.style.display = 'block'; textEl.textContent = '상시 진행'; return; }
+    const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
+    if (days) { display.style.display = 'block'; textEl.textContent = `총 ${days}일`; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
+  };
+
+  window.calculateCouponDateDuration = function() {
+    const display = document.getElementById('couponDateDurationDisplay');
+    const textEl  = document.getElementById('couponDateDurationText');
+    const always  = document.getElementById('alwaysCouponEvent');
+    const sEl     = document.getElementById('couponStartDate');
+    const eEl     = document.getElementById('couponEndDate');
+    if (!display || !textEl) return;
+
+    if (always && always.checked) { display.style.display = 'block'; textEl.textContent = '상시 진행'; return; }
+    const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
+    if (days) { display.style.display = 'block'; textEl.textContent = `총 ${days}일`; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
+  };
+
+  function forceSubmitOnStep11() {
+    const step = document.querySelector('[data-step="11"]');
+    if (!step) return;
+    const btn = step.querySelector('.btn-next');
+    if (!btn) return;
+
+    btn.textContent = '제출';
+    btn.setAttribute('type', 'submit');
+
+    const form = document.getElementById('eventForm');
+    btn.addEventListener('click', function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if (!form) { if (typeof window.submitForm === 'function') return window.submitForm(ev); return; }
+
+      const restore = sanitizeRequiredBeforeSubmit(form);
+      const ok = form.checkValidity();
+      if (!ok) { form.reportValidity(); restore(); return; }
+
+      // normalize event type before submit
+      window.eventType = detectEventType();
+
+      try {
+        if (typeof window.submitForm === 'function') {
+          window.submitForm(ev);
+        } else {
+          form.requestSubmit ? form.requestSubmit() : form.submit();
+        }
+      } finally {
+        restore();
+      }
+    }, { capture: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('input[name="eventType"]').forEach(r => {
+      r.addEventListener('change', () => { window.eventType = detectEventType(); toggleRequiredRules(); });
+    });
+    $('#eventType')?.addEventListener('change', () => { window.eventType = detectEventType(); toggleRequiredRules(); });
+
+    ['change','input'].forEach(evt => {
+      $('#startTime')?.addEventListener(evt, window.calculateTimeDuration);
+      $('#endTime')?.addEventListener(evt, window.calculateTimeDuration);
+      $('#allDayEvent')?.addEventListener('change', window.calculateTimeDuration);
+
+      $('#eventStartDate')?.addEventListener(evt, window.calculateDateDuration);
+      $('#eventEndDate')?.addEventListener(evt, window.calculateDateDuration);
+      $('#alwaysEvent')?.addEventListener('change', window.calculateDateDuration);
+
+      $('#couponStartDate')?.addEventListener(evt, window.calculateCouponDateDuration);
+      $('#couponEndDate')?.addEventListener(evt, window.calculateCouponDateDuration);
+      $('#alwaysCouponEvent')?.addEventListener('change', window.calculateCouponDateDuration);
+
+      $('#discountType')?.addEventListener('change', toggleRequiredRules);
+    });
+
+    window.eventType = detectEventType();
+    toggleRequiredRules();
+    window.calculateTimeDuration();
+    window.calculateDateDuration();
+    window.calculateCouponDateDuration();
+    forceSubmitOnStep11();
+  });
+})();
+</script>
+<!-- === /Behavior patch === -->
 </body>
 </html>

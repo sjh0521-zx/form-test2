@@ -2447,12 +2447,12 @@
 </script>
 <!-- === /Conflict-free GAS Sheet2 submit patch === -->
 
-<!-- === Behavior patch v2: Step11=Submit, compact time result, compact date result === -->
+<!-- === Behavior patch v3: step11 submit + duration displays + required/visibility fix === -->
 <script>
 (function() {
-  // utilities
   const $ = (sel, root=document) => root.querySelector(sel);
 
+  // ---------- duration helpers ----------
   function minutesFromHHMM(v) {
     if (!v) return null;
     const p = v.split(':');
@@ -2461,7 +2461,6 @@
     if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
     return hh * 60 + mm;
   }
-
   function format30(mins) {
     if (mins == null || mins <= 0) return "";
     const rounded = Math.round(mins / 30) * 30;
@@ -2469,9 +2468,8 @@
     const m = rounded % 60;
     if (m === 0) return `총 ${h}시간`;
     if (m === 30) return `총 ${h}시간 30분`;
-    return `총 ${h}시간 ${m}분`; // fallback (이상치)
+    return `총 ${h}시간 ${m}분`;
   }
-
   function inclusiveDays(s, e) {
     if (!s || !e) return null;
     const sd = new Date(s + "T00:00:00");
@@ -2482,13 +2480,103 @@
     return days > 0 ? days : null;
   }
 
-  // --- Step 8: 시간 결과 - 선택 시각 숨기고 총 N시간(NN분)만 노출
+  // ---------- visibility & validation helpers ----------
+  function isVisible(el) {
+    if (!el) return false;
+    const style = window.getComputedStyle(el);
+    if (style.visibility === "hidden" || style.display === "none") return false;
+    if (el.type === "hidden") return false;
+    // hidden due to parent
+    let node = el;
+    while (node) {
+      const st = window.getComputedStyle(node);
+      if (st.display === "none" || st.visibility === "hidden") return false;
+      node = node.parentElement;
+    }
+    // also check if it has size or is in active step
+    return el.offsetParent !== null;
+  }
+
+  function toggleRequiredRules() {
+    // 할인 방식에 따라 금액/정률 required 전환
+    const discountType = (window.discountType) || (($("#discountType")?.value) || "");
+    const amountEl = $("#discountAmount");
+    const percentEl = $("#discountPercent");
+    if (amountEl) amountEl.required = (discountType === "amount");
+    if (percentEl) percentEl.required = (discountType === "percent");
+
+    // 시간/기간 토글
+    const allDay = $("#allDayEvent");
+    if (allDay && allDay.checked) {
+      $("#startTime") && ($("#startTime").required = false);
+      $("#endTime") && ($("#endTime").required = false);
+    }
+
+    const always = $("#alwaysEvent");
+    if (always && always.checked) {
+      $("#eventStartDate") && ($("#eventStartDate").required = false);
+      $("#eventEndDate") && ($("#eventEndDate").required = false);
+    }
+
+    const alwaysC = $("#alwaysCouponEvent");
+    if (alwaysC && alwaysC.checked) {
+      $("#couponStartDate") && ($("#couponStartDate").required = false);
+      $("#couponEndDate") && ($("#couponEndDate").required = false);
+    }
+
+    // 이벤트 선택에 따라 메뉴/쿠폰 영역 required 비활성화 (있으면)
+    const evt = (window.eventType) || ($("#eventType")?.value) || "";
+    if (evt === "menu") {
+      // 쿠폰 관련 required 해제
+      ["couponStartDate","couponEndDate",
+       "couponAmount1","couponAmount2","couponAmount3","couponAmount4","couponAmount5",
+       "minOrderAmount1","minOrderAmount2","minOrderAmount3","minOrderAmount4","minOrderAmount5"
+      ].forEach(id => { const el = document.getElementById(id); if (el) el.required = false; });
+    } else if (evt === "coupon") {
+      // 메뉴 관련 required 해제
+      for (let i=1;i<=10;i++) {
+        const el = document.getElementById("menu"+i);
+        if (el) el.required = false;
+      }
+      // 할인 관련도 비활성화
+      if (amountEl) amountEl.required = false;
+      if (percentEl) percentEl.required = false;
+    }
+  }
+
+  function sanitizeRequiredBeforeSubmit(form) {
+    // 1) 동적 규칙 적용
+    toggleRequiredRules();
+
+    // 2) 보이지 않는 컨트롤은 submit/검증 대상에서 제외
+    const elements = form.querySelectorAll("input, select, textarea");
+    elements.forEach(el => {
+      if (!isVisible(el)) {
+        // 비가시 컨트롤은 검증에서 제외
+        el.dataset._wasRequired = el.required ? "1" : "";
+        el.required = false;
+        el.dataset._wasDisabled = el.disabled ? "1" : "";
+        el.disabled = true; // 제출에서도 제외
+      }
+    });
+
+    return function restore() {
+      elements.forEach(el => {
+        if (el.dataset._wasRequired === "1") el.required = true;
+        if (el.dataset._wasDisabled !== "1") el.disabled = false;
+        delete el.dataset._wasRequired;
+        delete el.dataset._wasDisabled;
+      });
+    };
+  }
+
+  // ---------- display overrides (step 8/9/13) ----------
   window.calculateTimeDuration = function() {
-    const display = $('#timeDurationDisplay');
-    const textEl  = $('#timeDurationText');
-    const allDay  = $('#allDayEvent');
-    const stSel   = $('#startTime');
-    const etSel   = $('#endTime');
+    const display = document.getElementById('timeDurationDisplay');
+    const textEl  = document.getElementById('timeDurationText');
+    const allDay  = document.getElementById('allDayEvent');
+    const stSel   = document.getElementById('startTime');
+    const etSel   = document.getElementById('endTime');
     if (!display || !textEl) return;
 
     if (allDay && allDay.checked) {
@@ -2498,40 +2586,33 @@
     }
 
     const sVal = stSel?.value || "";
-    theVal = etSel?.value || "";
-    if (!sVal || !theVal) {
+    const eVal = etSel?.value || "";
+    if (!sVal || !eVal) {
       display.style.display = 'none';
       textEl.textContent = '';
       return;
     }
 
     let s = minutesFromHHMM(sVal);
-    let e = minutesFromHHMM(theVal);
+    let e = minutesFromHHMM(eVal);
     if (s == null || e == null) {
       display.style.display = 'none';
       textEl.textContent = '';
       return;
     }
 
-    // 다음날 넘어감 허용
     let mins = (e <= s) ? (24*60 - s) + e : (e - s);
     const out = format30(mins);
-    if (out) {
-      display.style.display = 'block';
-      textEl.textContent = out; // 시작/종료 시각은 노출하지 않음
-    } else {
-      display.style.display = 'none';
-      textEl.textContent = '';
-    }
+    if (out) { display.style.display = 'block'; textEl.textContent = out; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
   };
 
-  // --- Step 9: 기간 결과 - 날짜 숨기고 총 N일만 노출
   window.calculateDateDuration = function() {
-    const display = $('#dateDurationDisplay');
-    const textEl  = $('#dateDurationText');
-    const always  = $('#alwaysEvent');
-    const sEl     = $('#eventStartDate');
-    const eEl     = $('#eventEndDate');
+    const display = document.getElementById('dateDurationDisplay');
+    const textEl  = document.getElementById('dateDurationText');
+    const always  = document.getElementById('alwaysEvent');
+    const sEl     = document.getElementById('eventStartDate');
+    const eEl     = document.getElementById('eventEndDate');
     if (!display || !textEl) return;
 
     if (always && always.checked) {
@@ -2539,24 +2620,17 @@
       textEl.textContent = '상시 진행';
       return;
     }
-
     const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
-    if (days) {
-      display.style.display = 'block';
-      textEl.textContent = `총 ${days}일`;
-    } else {
-      display.style.display = 'none';
-      textEl.textContent = '';
-    }
+    if (days) { display.style.display = 'block'; textEl.textContent = `총 ${days}일`; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
   };
 
-  // --- Step 13: 쿠폰 기간 결과 - 날짜 숨기고 총 N일만 노출
   window.calculateCouponDateDuration = function() {
-    const display = $('#couponDateDurationDisplay');
-    const textEl  = $('#couponDateDurationText');
-    const always  = $('#alwaysCouponEvent');
-    const sEl     = $('#couponStartDate');
-    const eEl     = $('#couponEndDate');
+    const display = document.getElementById('couponDateDurationDisplay');
+    const textEl  = document.getElementById('couponDateDurationText');
+    const always  = document.getElementById('alwaysCouponEvent');
+    const sEl     = document.getElementById('couponStartDate');
+    const eEl     = document.getElementById('couponEndDate');
     if (!display || !textEl) return;
 
     if (always && always.checked) {
@@ -2564,18 +2638,12 @@
       textEl.textContent = '상시 진행';
       return;
     }
-
     const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
-    if (days) {
-      display.style.display = 'block';
-      textEl.textContent = `총 ${days}일`;
-    } else {
-      display.style.display = 'none';
-      textEl.textContent = '';
-    }
+    if (days) { display.style.display = 'block'; textEl.textContent = `총 ${days}일`; }
+    else { display.style.display = 'none'; textEl.textContent = ''; }
   };
 
-  // --- Step 11: '다음'이 아닌 무조건 '제출'
+  // ---------- step 11: submit (with validation fix) ----------
   function forceSubmitOnStep11() {
     const step = document.querySelector('[data-step="11"]');
     if (!step) return;
@@ -2589,16 +2657,30 @@
     btn.addEventListener('click', function(ev) {
       ev.preventDefault();
       ev.stopPropagation();
-      if (form && typeof form.requestSubmit === 'function') {
-        form.requestSubmit();
-      } else if (typeof window.submitForm === 'function') {
-        window.submitForm(ev);
+
+      if (!form) { if (typeof window.submitForm === 'function') return window.submitForm(ev); return; }
+
+      // Hide/disable invisible required controls just for validation & submission
+      const restore = sanitizeRequiredBeforeSubmit(form);
+
+      // Use native validity check for visible/active controls only
+      const ok = form.checkValidity();
+      if (!ok) {
+        form.reportValidity();
+        restore();
+        return;
+      }
+
+      // If your submitForm does custom posting, call it; else submit form normally
+      if (typeof window.submitForm === 'function') {
+        try { window.submitForm(ev); } finally { restore(); }
+      } else {
+        try { form.requestSubmit ? form.requestSubmit() : form.submit(); } finally { restore(); }
       }
     }, { capture: true });
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // 실시간 바인딩
     ['change','input'].forEach(evt => {
       $('#startTime')?.addEventListener(evt, window.calculateTimeDuration);
       $('#endTime')?.addEventListener(evt, window.calculateTimeDuration);
@@ -2611,18 +2693,22 @@
       $('#couponStartDate')?.addEventListener(evt, window.calculateCouponDateDuration);
       $('#couponEndDate')?.addEventListener(evt, window.calculateCouponDateDuration);
       $('#alwaysCouponEvent')?.addEventListener('change', window.calculateCouponDateDuration);
+
+      // 할인 방식 선택 바뀌면 required 규칙 갱신
+      $('#discountType')?.addEventListener('change', toggleRequiredRules);
     });
 
-    // 초기 계산
+    // initial compute
     window.calculateTimeDuration();
     window.calculateDateDuration();
     window.calculateCouponDateDuration();
+    toggleRequiredRules();
 
-    // 11단계 강제 제출
+    // force submit button on step 11
     forceSubmitOnStep11();
   });
 })();
 </script>
-<!-- === /Behavior patch v2 === -->
+<!-- === /Behavior patch v3 === -->
 </body>
 </html>

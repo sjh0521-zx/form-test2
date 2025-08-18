@@ -493,7 +493,7 @@
                     
                     <div style="margin: 30px 0 20px; padding: 20px; background: #fdfbf8; border-radius: 10px; border: 2px solid #e8d5c4;">
                         <label style="display: flex; align-items: flex-start; cursor: pointer;">
-                            <input type="checkbox" id="agreeCheck" style="width: 20px; height: 20px; margin-right: 12px; margin-top: 2px; cursor: pointer;">
+                            <input type="checkbox" id="agreeCheck" style="width: 20px; height: 20px; margin-right: 12px; margin-top: 2px; cursor: pointer;" onchange="toggleStartBtn(this)">
                             <span style="flex: 1; color: #3d2314; line-height: 1.6;">
                                 위 안내사항을 모두 확인했으며, <strong style="color: #0AC4B1;">사장님이벤트</strong> 신청을 진행하겠습니다.
                             </span>
@@ -1780,7 +1780,27 @@
         }
 
         // 페이지 로드시 시간 옵션 생성
-        window.addEventListener('DOMContentLoaded', function() {
+        
+        // 시작하기 버튼 활성/비활성 토글 (Step 1)
+        function toggleStartBtn(chk) {
+            try {
+                const startBtn = document.getElementById('startBtn');
+                if (!startBtn) return;
+                const checked = chk ? !!chk.checked : false;
+                if (checked) {
+                    startBtn.disabled = false;
+                    startBtn.style.opacity = '1';
+                } else {
+                    startBtn.disabled = true;
+                    startBtn.style.opacity = '0.5';
+                }
+            } catch(e) {
+                // 안전하게 무시
+                console.warn('toggleStartBtn error', e);
+            }
+        }
+    
+window.addEventListener('DOMContentLoaded', function() {
             generateTimeOptions();
             setDateRange();
             handleAlwaysEvent();
@@ -1805,7 +1825,9 @@
             startBtn.style.opacity = '0.5';
         });
 
-        // 전화번호 자동 포맷팅
+                    toggleStartBtn(document.getElementById("agreeCheck"));
+        });
+// 전화번호 자동 포맷팅
         document.getElementById('phoneNumber').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^0-9]/g, '');
             let formatted = '';

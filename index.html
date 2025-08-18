@@ -872,32 +872,41 @@
                         </label>
                     </div>
 
-                    <div id="rewardOptionsGroup" style="opacity: 0.5; pointer-events: none; margin-top: 20px;">
-                        <div class="radio-group">
-                            <div class="radio-item selected" onclick="selectRewardPolicy('no')">
-                                <input type="radio" id="noReward" name="rewardPolicy" value="no" checked>
-                                <label for="noReward" class="radio-label">
-                                    <strong>적립 불가</strong><br>
-                                    <small style="color: #8c8c8c;">이벤트 메뉴는 적립 대상에서 제외</small>
-                                </label>
+                <!-- Step 12: 쿠폰 이벤트 설정 (기존 Step 10) -->
+<div class="step" data-step="12">
+                    <h2 class="step-title">
+                        <span class="step-number">12</span>
+                        [매장 쿠폰 이벤트] 쿠폰 금액을 설정해주세요
+                    </h2>
+                    <p style="color: #8c8c8c; margin-bottom: 20px;">최대 5개까지 쿠폰을 만들 수 있습니다.</p>
+                    
+                    <div id="couponList">
+                        <!-- 쿠폰 1 (기본) -->
+                        <div class="coupon-item" data-coupon="1">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <h4 style="color: #0AC4B1; margin: 0;">쿠폰 1</h4>
                             </div>
-                            <div class="radio-item" onclick="selectRewardPolicy('yes')">
-                                <input type="radio" id="yesReward" name="rewardPolicy" value="yes">
-                                <label for="yesReward" class="radio-label">
-                                    <strong>적립 가능</strong><br>
-                                    <small style="color: #8c8c8c;">이벤트 메뉴도 적립 가능</small>
-                                </label>
-                            </div>
-                        </div>
+                <!-- Step 13: 쿠폰 이벤트 - 기간 설정 -->
+                <div class="step" data-step="13">
+                    <h2 class="step-title">
+                        <span class="step-number">13</span>
+                        [매장 쿠폰 이벤트] 이벤트 진행 기간 선택
+                    </h2>
+                    <p style="color: #8c8c8c; margin-bottom: 20px;">쿠폰 이벤트를 진행할 기간을 선택해주세요.</p>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="alwaysCouponEvent" name="alwaysCouponEvent" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
+                            <span style="vertical-align: middle;">기간 선택 안함 (상시 진행)</span>
+                        </label>
                     </div>
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-submit" onclick="submitForm()">
-                            <span class="btn-text">제출하기</span>
-                            <div class="spinner"></div>
-                        </button>
-        </div>
+                    <div id="couponDateSelectGroup">
+                        <div class="time-select-group">
+                            <div class="form-group">
+                                <label for="couponStartDate">이벤트 시작 날짜<span class="required">*</span></label>
+                                <input type="date" id="couponStartDate" name="couponStartDate" required onchange="calculateCouponDateDuration()">
+                                <div class="error-message">이벤트 시작 날짜를 선택해주세요.</div>
                             </div>
 
                             <div class="form-group">
@@ -915,154 +924,13 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
-                    </div>
-                </div>
-
-                <!-- Step 14: 쿠폰 이벤트 - 쿠폰 유효기간 선택 -->
-                <div class="step" data-step="14">
-                    <h2 class="step-title">
-                        <span class="step-number">14</span>
-                        [매장 쿠폰 이벤트] 쿠폰 유효기간 선택
-                    </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">쿠폰을 다운로드 한 시점부터 사용할 수 있는 유효기간입니다. (이벤트 진행 기간과는 별개)</p>
-                    
-                    <div class="radio-group">
-                        <div class="radio-item selected" onclick="selectCouponValidity('7')">
-                            <input type="radio" id="validity7days" name="couponValidity" value="7" checked>
-                            <label for="validity7days" class="radio-label">
-                                <strong>7일</strong><br>
-                                <small style="color: #8c8c8c;">다운로드 후 일주일 동안 사용 가능</small>
-                            </label>
-                        </div>
-                        <div class="radio-item" onclick="selectCouponValidity('14')">
-                            <input type="radio" id="validity14days" name="couponValidity" value="14">
-                            <label for="validity14days" class="radio-label">
-                                <strong>14일</strong><br>
-                                <small style="color: #8c8c8c;">다운로드 후 2주 동안 사용 가능</small>
-                            </label>
-                        </div>
-                        <div class="radio-item" onclick="selectCouponValidity('30')">
-                            <input type="radio" id="validity30days" name="couponValidity" value="30">
-                            <label for="validity30days" class="radio-label">
-                                <strong>30일</strong><br>
-                                <small style="color: #8c8c8c;">다운로드 후 한 달 동안 사용 가능</small>
-                            </label>
-                        </div>
-                        <div class="radio-item" onclick="selectCouponValidity('0')">
-                            <input type="radio" id="validityToday" name="couponValidity" value="0">
-                            <label for="validityToday" class="radio-label">
-                                <strong>당일</strong><br>
-                                <small style="color: #8c8c8c;">다운로드 당일에만 사용 가능</small>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
-                    </div>
-                </div>
-
-                <!-- Step 15: 쿠폰 이벤트 - 구매 정책 선택 -->
-                <div class="step" data-step="15">
-                    <h2 class="step-title">
-                        <span class="step-number">15</span>
-                        [매장 쿠폰 이벤트] 구매 정책 선택
-                    </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">개별 쿠폰 사용에 대한 제한 정책입니다.</p>
-                    
-                    <div class="radio-group">
-                        <div class="radio-item selected" onclick="selectCouponPurchasePolicy('repeat')">
-                            <input type="radio" id="couponRepeatUse" name="couponPurchasePolicy" value="repeat" checked>
-                            <label for="couponRepeatUse" class="radio-label">
-                                <strong>반복 사용</strong><br>
-                                <small style="color: #8c8c8c;">이벤트 마감될 때까지 계속 쿠폰 사용 가능</small>
-                            </label>
-                        </div>
-                        <div class="radio-item" onclick="selectCouponPurchasePolicy('daily')">
-                            <input type="radio" id="couponDailyUse" name="couponPurchasePolicy" value="daily">
-                            <label for="couponDailyUse" class="radio-label">
-                                <strong>하루에 1번 사용</strong><br>
-                                <small style="color: #8c8c8c;">하루에 한번만 쿠폰 사용 가능</small>
-                            </label>
-                        </div>
-                        <div class="radio-item" onclick="selectCouponPurchasePolicy('once')">
-                            <input type="radio" id="couponOnceUse" name="couponPurchasePolicy" value="once">
-                            <label for="couponOnceUse" class="radio-label">
-                                <strong>고객 당 1번 사용</strong><br>
-                                <small style="color: #8c8c8c;">유저 기준 한번만 쿠폰 사용 가능</small>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
-                    </div>
-                </div>
-
-                <!-- Step 16: 쿠폰 이벤트 - 적립 여부 -->
-                <div class="step" data-step="16">
-                    <h2 class="step-title">
-                        <span class="step-number">16</span>
-                        [매장 쿠폰 이벤트] 이벤트 적립 여부
-                    </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">패스오더를 통해 적립 중인 매장만 선택 가능한 항목입니다.</p>
-                    
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; padding: 15px; background: #fdfbf8; border-radius: 10px; border: 2px solid #e8d5c4; cursor: pointer;">
-                            <input type="checkbox" id="couponHasRewardProgram" name="couponHasRewardProgram" 
-                                   style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;"
-                                   onchange="toggleCouponRewardOptions()">
-                            <span style="flex: 1; color: #3d2314;">
-                                패스오더에서 적립 진행 중이신가요?
-                            </span>
-                        </label>
-                    </div>
-
-                    <div id="couponRewardOptionsGroup" style="opacity: 0.5; pointer-events: none; margin-top: 20px;">
-                        <div class="radio-group">
-                            <div class="radio-item selected" onclick="selectCouponRewardPolicy('no')">
-                                <input type="radio" id="couponNoReward" name="couponRewardPolicy" value="no" checked>
-                                <label for="couponNoReward" class="radio-label">
-                                    <strong>적립 불가</strong><br>
-                                    <small style="color: #8c8c8c;">쿠폰 사용 시 쿠폰 사용에 대한 적립 불가</small>
-                                </label>
-                            </div>
-                            <div class="radio-item" onclick="selectCouponRewardPolicy('yes')">
-                                <input type="radio" id="couponYesReward" name="couponRewardPolicy" value="yes">
-                                <label for="couponYesReward" class="radio-label">
-                                    <strong>적립 가능</strong><br>
-                                    <small style="color: #8c8c8c;">쿠폰 사용에 대한 적립 가능</small>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
                         <button type="button" class="btn btn-submit" onclick="submitForm()">
                             <span class="btn-text">제출하기</span>
                             <div class="spinner"></div>
                         </button>
         </div>
                 </div>
-
-                <!-- Step 12: 쿠폰 이벤트 설정 (기존 Step 10) -->
-                <div class="step" data-step="12">
-                    <h2 class="step-title">
-                        <span class="step-number">12</span>
-                        [매장 쿠폰 이벤트] 쿠폰 금액을 설정해주세요
-                    </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">최대 5개까지 쿠폰을 만들 수 있습니다.</p>
-                    
-                    <div id="couponList">
-                        <!-- 쿠폰 1 (기본) -->
-                        <div class="coupon-item" data-coupon="1">
-                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                <h4 style="color: #0AC4B1; margin: 0;">쿠폰 1</h4>
-                            </div>
+    
                             <div class="form-group">
                                 <label for="couponAmount1">쿠폰 금액<span class="required">*</span></label>
                                 <input type="number" id="couponAmount1" name="couponAmount1" 
@@ -1153,6 +1021,7 @@
             } else {
                 display.style.display = 'none';
             }
+        }
 
         // 쿠폰 상시 진행 체크박스 처리
         function handleAlwaysCouponEvent() {
@@ -1650,7 +1519,7 @@ window.addEventListener('DOMContentLoaded', function() {
             
             // 초기 상태: 버튼 비활성화 스타일
             startBtn.style.opacity = '0.5';
-            toggleStartBtn(document.getElementById(\'agreeCheck\'));
+            toggleStartBtn(document.getElementById('agreeCheck'));
 });
 // 전화번호 자동 포맷팅
         document.getElementById('phoneNumber').addEventListener('input', function(e) {

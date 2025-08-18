@@ -2351,6 +2351,104 @@
       let evtRaw = (typeof window!=="undefined" && window.eventType) ? window.eventType : firstVal(["#eventType","[name=eventType]"]);
       let evt = evtRaw === "menu" ? "메뉴 할인 이벤트" : (evtRaw === "coupon" ? "매장 쿠폰 이벤트" : "");
       out.set("이벤트 선택", evt);
+      // === Type-specific payload columns ([M]... for 메뉴 할인, [C]... for 쿠폰) ===
+      try {
+        const evtType = evt; // '메뉴 할인 이벤트' or '매장 쿠폰 이벤트'
+
+        if (evtType === "메뉴 할인 이벤트") {
+          // Build menu list
+          const menus = [];
+          for (let i = 1; i <= 10; i++) {
+            const t = out.get(`메뉴${i}`);
+            if (t) menus.push(t);
+          }
+          const menuList = menus.join(", ");
+
+          // Discount
+          const dTypeKor = dType; // '금액할인' or '정률할인'
+          const amountVal = out.get("금액");
+          const percentVal = out.get("정률");
+          const discountUnified = (dTypeKor === "금액할인" && amountVal) ? amountVal
+                                   : ((dTypeKor === "정률할인" && percentVal) ? percentVal : "");
+
+          // Time (all-day vs start/end)
+          const allDay = out.get("시간 선택 안함") === "예";
+          const timeUnified = allDay ? "영업시간 전체" : (function() {
+            const s = out.get("이벤트 시작 시간") || "";
+            const e = out.get("이벤트 종료 시간") || "";
+            return (s || e) ? `${s}~${e}` : "";
+          })();
+
+          // Period (always vs dates)
+          const always = out.get("기간 선택 안함") === "예";
+          const periodUnified = always ? "상시 진행" : (function() {
+            const s = out.get("이벤트 시작 날짜") || "";
+            const e = out.get("이벤트 종료 날짜") || "";
+            return (s || e) ? `${s}~${e}` : "";
+          })();
+
+          // Reward
+          const hasReward = out.get("적립 확인") === "예";
+          const rewardProg = hasReward ? "예" : "아니오";
+          const rewardYN = hasReward ? (out.get("적립 여부") || "") : "";
+
+          // Set [M] columns
+          out.set("[M]이벤트 구분", "메뉴 할인");
+          out.set("[M]메뉴 목록", menuList);
+          out.set("[M]할인 방식", dTypeKor || "");
+          out.set("[M]할인 값", discountUnified || "");
+          out.set("[M]시간", timeUnified || "");
+          out.set("[M]기간", periodUnified || "");
+          out.set("[M]구매 정책", out.get("구매 정책") || "");
+          out.set("[M]적립 프로그램", rewardProg);
+          out.set("[M]적립 여부", rewardYN);
+
+          // Hint for backend routing (optional)
+          out.set("__payload_type", "MENU");
+        }
+
+        if (evtType === "매장 쿠폰 이벤트") {
+          // Coupons
+          const coupons = [];
+          for (let i = 1; i <= 5; i++) {
+            const amount = out.get(`${i}쿠폰금액`) || "";
+            const minord = out.get(`${i}최소주문금액`) || "";
+            if (amount) {
+              coupons.push({ index: i, amount, minOrder: (minord || "제한 없음") });
+            }
+          }
+          const couponCount = coupons.length;
+
+          // Period (always vs dates)
+          const alwaysC = out.get("기간 선택 안함 - 쿠폰") === "예";
+          const periodC = alwaysC ? "상시 진행" : (function() {
+            const s = out.get("이벤트 시작 날짜 - 쿠폰") || "";
+            const e = out.get("이벤트 종료 날짜  - 쿠폰") || "";
+            return (s || e) ? `${s}~${e}` : "";
+          })();
+
+          // Reward (coupon)
+          const hasRewardC = out.get("적립 확인  - 쿠폰") === "예";
+          const rewardProgC = hasRewardC ? "예" : "아니오";
+          const rewardYNC = hasRewardC ? (out.get("적립여부  - 쿠폰") || "") : "";
+
+          // Set [C] columns
+          out.set("[C]이벤트 구분", "매장 쿠폰");
+          out.set("[C]쿠폰 개수", String(couponCount));
+          out.set("[C]쿠폰 목록(JSON)", JSON.stringify(coupons));
+          out.set("[C]기간", periodC || "");
+          out.set("[C]유효기간", out.get("유효기간") || "");
+          out.set("[C]구매 정책", out.get("구매 정책 - 쿠폰") || "");
+          out.set("[C]적립 프로그램", rewardProgC);
+          out.set("[C]적립 여부", rewardYNC);
+
+          // Hint for backend routing (optional)
+          out.set("__payload_type", "COUPON");
+        }
+      } catch(_xx) {
+        // Non-fatal: if any mapping fails, continue with base payload
+      }
+
 
       for (let i=1;i<=10;i++) {
         const v = firstVal([`#menu${i}`,`[name=menu${i}]`]);

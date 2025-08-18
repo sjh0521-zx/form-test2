@@ -1154,7 +1154,6 @@
                 display.style.display = 'none';
             }
         }
-        }
 
         // 쿠폰 상시 진행 체크박스 처리
         function handleAlwaysCouponEvent() {
@@ -1535,7 +1534,6 @@
                 display.style.display = 'none';
             }
         }
-        }
 
         // 날짜 계산 함수
         
@@ -1574,7 +1572,6 @@
             } else {
                 display.style.display = 'none';
             }
-        }
         }
         function generateTimeOptions() {
             const startTimeSelect = document.getElementById('startTime');
@@ -1654,9 +1651,7 @@ window.addEventListener('DOMContentLoaded', function() {
             
             // 초기 상태: 버튼 비활성화 스타일
             startBtn.style.opacity = '0.5';
-        });
-
-    toggleStartBtn(document.getElementById('agreeCheck'));
+            toggleStartBtn(document.getElementById(\'agreeCheck\'));
 });
 // 전화번호 자동 포맷팅
         document.getElementById('phoneNumber').addEventListener('input', function(e) {

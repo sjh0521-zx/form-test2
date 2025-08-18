@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link rel="icon" href="data:," />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>패스오더 - 사장님이벤트 신청서</title>
@@ -894,7 +895,9 @@
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
                         <button type="button" class="btn btn-submit" onclick="submitForm()">
                             <span class="btn-text">제출하기</span>
-                            <div class="spinner"></div></div></div>
+                            <div class="spinner"></div>
+                        </button>
+        </div></div></div>
                         </button>
         </div>
                 </div>
@@ -1066,7 +1069,9 @@
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
                         <button type="button" class="btn btn-submit" onclick="submitForm()">
                             <span class="btn-text">제출하기</span>
-                            <div class="spinner"></div></div>
+                            <div class="spinner"></div>
+                        </button>
+        </div></div>
                         </button>
                     </div>
                 </div>
@@ -1825,8 +1830,8 @@ window.addEventListener('DOMContentLoaded', function() {
             startBtn.style.opacity = '0.5';
         });
 
-                    toggleStartBtn(document.getElementById("agreeCheck"));
-        });
+    toggleStartBtn(document.getElementById('agreeCheck'));
+});
 // 전화번호 자동 포맷팅
         document.getElementById('phoneNumber').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^0-9]/g, '');

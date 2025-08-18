@@ -420,7 +420,6 @@
 
         <div class="form-container">
             <form id="eventForm">
-                <!-- Step 1: 안내 페이지 -->
                 <div class="step active" data-step="1">
                     <h2 class="step-title">
                         <span class="step-number">1</span>
@@ -491,7 +490,7 @@
                         </div>
                     </div>
                     
-                    <div style="margin: 30px 0 20px; padding: 20px; background: #fdfbf8; border-radius: 10px; border: 2px solid #e8d5c4;">
+                    <div class="form-group" style="margin-top: 25px;">
                         <label style="display: flex; align-items: flex-start; cursor: pointer;">
                             <input type="checkbox" id="agreeCheck" style="width: 20px; height: 20px; margin-right: 12px; margin-top: 2px; cursor: pointer;">
                             <span style="flex: 1; color: #3d2314; line-height: 1.6;">
@@ -505,7 +504,6 @@
                     </div>
                 </div>
 
-                <!-- Step 2: 매장 정보 수집 -->
                 <div class="step" data-step="2">
                     <h2 class="step-title">
                         <span class="step-number">2</span>
@@ -531,17 +529,12 @@
                         <div class="error-message">올바른 연락처 형식으로 입력해주세요.</div>
                     </div>
 
-                    <div id="step4Error" style="display: none; padding: 10px; background: #fff2f0; border: 1px solid #ffccc7; border-radius: 8px; margin-bottom: 15px;">
-                        <span style="color: #d4380d; font-size: 14px;">⚠️ 메뉴를 입력하고 체크박스를 확인해주세요.</span>
-                    </div>
-
                     <div class="btn-group">
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
                         <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
                     </div>
                 </div>
 
-                <!-- Step 3: 이벤트 종류 선택 -->
                 <div class="step" data-step="3">
                     <h2 class="step-title">
                         <span class="step-number">3</span>
@@ -568,11 +561,9 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
                     </div>
                 </div>
 
-                <!-- Step 4: 메뉴 할인 - 메뉴 선택 -->
                 <div class="step" data-step="4">
                     <h2 class="step-title">
                         <span class="step-number">4</span>
@@ -580,55 +571,29 @@
                     </h2>
                     <p style="color: #8c8c8c; margin-bottom: 20px;">최소 1개, 최대 10개까지 등록 가능합니다.</p>
                     
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 1<span class="required">*</span></span>
-                        <input type="text" class="menu-input" name="menu1" placeholder="예: 아메리카노" required>
+                    <div class="form-group">
+                        <div class="menu-input-group">
+                            <span class="menu-number">메뉴 1<span class="required">*</span></span>
+                            <input type="text" class="menu-input" name="menu1" placeholder="예: 아메리카노" required>
+                        </div>
+                        <div class="error-message">메뉴1은 필수입니다.</div>
                     </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 2</span>
-                        <input type="text" class="menu-input" name="menu2" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 3</span>
-                        <input type="text" class="menu-input" name="menu3" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 4</span>
-                        <input type="text" class="menu-input" name="menu4" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 5</span>
-                        <input type="text" class="menu-input" name="menu5" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 6</span>
-                        <input type="text" class="menu-input" name="menu6" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 7</span>
-                        <input type="text" class="menu-input" name="menu7" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 8</span>
-                        <input type="text" class="menu-input" name="menu8" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 9</span>
-                        <input type="text" class="menu-input" name="menu9" placeholder="선택사항">
-                    </div>
-                    <div class="menu-input-group">
-                        <span class="menu-number">메뉴 10</span>
-                        <input type="text" class="menu-input" name="menu10" placeholder="선택사항">
-                    </div>
-
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 2</span><input type="text" class="menu-input" name="menu2" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 3</span><input type="text" class="menu-input" name="menu3" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 4</span><input type="text" class="menu-input" name="menu4" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 5</span><input type="text" class="menu-input" name="menu5" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 6</span><input type="text" class="menu-input" name="menu6" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 7</span><input type="text" class="menu-input" name="menu7" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 8</span><input type="text" class="menu-input" name="menu8" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 9</span><input type="text" class="menu-input" name="menu9" placeholder="선택사항"></div></div>
+                    <div class="form-group"><div class="menu-input-group"><span class="menu-number">메뉴 10</span><input type="text" class="menu-input" name="menu10" placeholder="선택사항"></div></div>
+                    
                     <div class="form-group" style="margin-top: 25px;">
                         <label style="display: flex; align-items: center; padding: 15px; background: #fdfbf8; border-radius: 10px; border: 2px solid #e8d5c4; cursor: pointer;">
-                            <input type="checkbox" id="menuConfirm" name="menuConfirm" 
-                                   style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
-                            <span style="flex: 1; color: #3d2314;">
-                                패스오더에 등록된 메뉴명을 기준으로 작성하였습니다.
-                            </span>
+                            <input type="checkbox" id="menuConfirm" name="menuConfirm" style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;">
+                            <span style="flex: 1; color: #3d2314;">패스오더에 등록된 메뉴명을 기준으로 작성하였습니다.</span>
                         </label>
+                        <div class="error-message">체크박스를 선택해주세요.</div>
                     </div>
 
                     <div class="btn-group">
@@ -637,7 +602,6 @@
                     </div>
                 </div>
 
-                <!-- Step 5: 메뉴 할인 - 할인 방식 선택 -->
                 <div class="step" data-step="5">
                     <h2 class="step-title">
                         <span class="step-number">5</span>
@@ -664,11 +628,9 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
                     </div>
                 </div>
 
-                <!-- Step 6: 메뉴 할인 - 금액 할인 설정 -->
                 <div class="step" data-step="6">
                     <h2 class="step-title">
                         <span class="step-number">6</span>
@@ -689,7 +651,6 @@
                     </div>
                 </div>
 
-                <!-- Step 7: 메뉴 할인 - 정률 할인 설정 -->
                 <div class="step" data-step="7">
                     <h2 class="step-title">
                         <span class="step-number">7</span>
@@ -729,7 +690,6 @@
                     </div>
                 </div>
 
-                <!-- Step 8: 메뉴 할인 - 시간 설정 -->
                 <div class="step" data-step="8">
                     <h2 class="step-title">
                         <span class="step-number">8</span>
@@ -772,7 +732,6 @@
                     </div>
                 </div>
 
-                <!-- Step 9: 메뉴 할인 - 기간 설정 -->
                 <div class="step" data-step="9">
                     <h2 class="step-title">
                         <span class="step-number">9</span>
@@ -814,7 +773,6 @@
                     </div>
                 </div>
 
-                <!-- Step 10: 메뉴 할인 - 구매 정책 선택 -->
                 <div class="step" data-step="10">
                     <h2 class="step-title">
                         <span class="step-number">10</span>
@@ -852,7 +810,6 @@
                     </div>
                 </div>
 
-                <!-- Step 11: 메뉴 할인 - 적립 여부 -->
                 <div class="step" data-step="11">
                     <h2 class="step-title">
                         <span class="step-number">11</span>
@@ -896,7 +853,46 @@
                     </div>
                 </div>
 
-                <!-- Step 13: 쿠폰 이벤트 - 진행 기간 선택 -->
+                <div class="step" data-step="12">
+                    <h2 class="step-title">
+                        <span class="step-number">12</span>
+                        [매장 쿠폰 이벤트] 쿠폰 금액을 설정해주세요
+                    </h2>
+                    <p style="color: #8c8c8c; margin-bottom: 20px;">최대 5개까지 쿠폰을 만들 수 있습니다.</p>
+                    
+                    <div id="couponList">
+                        <div class="coupon-item" data-coupon="1">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <h4 style="color: #0AC4B1; margin: 0;">쿠폰 1</h4>
+                            </div>
+                            <div class="form-group">
+                                <label for="couponAmount1">쿠폰 금액<span class="required">*</span></label>
+                                <input type="number" id="couponAmount1" name="couponAmount1" 
+                                       placeholder="예: 3000" min="500" step="100" required
+                                       onblur="validateCouponAmount(1)">
+                                <div class="error-message">500원 이상, 10원 단위 제외하고 입력해주세요.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minOrderAmount1">최소 주문 금액 <span style="color: #8c8c8c; font-weight: normal;">(선택)</span></label>
+                                <input type="number" id="minOrderAmount1" name="minOrderAmount1" 
+                                       placeholder="예: 10000" min="0" step="100"
+                                       onblur="validateMinOrderAmount(1)">
+                                <div class="error-message">쿠폰 금액보다 높게 설정해주세요.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="addCouponBtn" class="btn" onclick="addCoupon()" 
+                            style="width: 100%; margin: 20px 0; background: #fff; border: 2px dashed #0AC4B1; color: #0AC4B1;">
+                        + 쿠폰 추가
+                    </button>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
+                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
+                    </div>
+                </div>
+                
                 <div class="step" data-step="13">
                     <h2 class="step-title">
                         <span class="step-number">13</span>
@@ -938,7 +934,6 @@
                     </div>
                 </div>
 
-                <!-- Step 14: 쿠폰 이벤트 - 쿠폰 유효기간 선택 -->
                 <div class="step" data-step="14">
                     <h2 class="step-title">
                         <span class="step-number">14</span>
@@ -983,7 +978,6 @@
                     </div>
                 </div>
 
-                <!-- Step 15: 쿠폰 이벤트 - 구매 정책 선택 -->
                 <div class="step" data-step="15">
                     <h2 class="step-title">
                         <span class="step-number">15</span>
@@ -1021,92 +1015,28 @@
                     </div>
                 </div>
 
-                <!-- Step 16: 쿠폰 이벤트 - 적립 여부 -->
                 <div class="step" data-step="16">
                     <h2 class="step-title">
-                        <span class="step-number">16</span>
-                        [매장 쿠폰 이벤트] 이벤트 적립 여부
+                        <span class="step-number">✓</span>
+                        신청서 제출
                     </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">패스오더를 통해 적립 중인 매장만 선택 가능한 항목입니다.</p>
+                    <p style="color: #8c8c8c; margin-bottom: 20px;">마지막 단계입니다! 입력하신 내용을 확인하고 제출해주세요.</p>
                     
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; padding: 15px; background: #fdfbf8; border-radius: 10px; border: 2px solid #e8d5c4; cursor: pointer;">
-                            <input type="checkbox" id="couponHasRewardProgram" name="couponHasRewardProgram" 
-                                   style="width: 20px; height: 20px; margin-right: 12px; cursor: pointer;"
-                                   onchange="toggleCouponRewardOptions()">
-                            <span style="flex: 1; color: #3d2314;">
-                                패스오더에서 적립 진행 중이신가요?
-                            </span>
-                        </label>
-                    </div>
-
-                    <div id="couponRewardOptionsGroup" style="opacity: 0.5; pointer-events: none; margin-top: 20px;">
-                        <div class="radio-group">
-                            <div class="radio-item selected" onclick="selectCouponRewardPolicy('no')">
-                                <input type="radio" id="couponNoReward" name="couponRewardPolicy" value="no" checked>
-                                <label for="couponNoReward" class="radio-label">
-                                    <strong>적립 불가</strong><br>
-                                    <small style="color: #8c8c8c;">쿠폰 사용 시 쿠폰 사용에 대한 적립 불가</small>
-                                </label>
-                            </div>
-                            <div class="radio-item" onclick="selectCouponRewardPolicy('yes')">
-                                <input type="radio" id="couponYesReward" name="couponRewardPolicy" value="yes">
-                                <label for="couponYesReward" class="radio-label">
-                                    <strong>적립 가능</strong><br>
-                                    <small style="color: #8c8c8c;">쿠폰 사용에 대한 적립 가능</small>
-                                </label>
-                            </div>
-                        </div>
+                    <div style="background: #fdfbf8; padding: 20px; border-radius: 10px; border: 1px solid #e8d5c4;">
+                        <h3 style="color: #3d2314; margin-bottom: 15px;">⚠️ 최종 확인사항</h3>
+                        <ul style="padding-left: 20px; color: #595959; line-height: 1.8;">
+                            <li>제출된 신청서는 영업일 기준 1-2일 내에 검토됩니다.</li>
+                            <li>이벤트 내용 수정이 필요한 경우, 담당자가 입력하신 연락처로 연락드릴 수 있습니다.</li>
+                            <li>이벤트 시작 전 최종 알림톡을 보내드립니다.</li>
+                        </ul>
                     </div>
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
                         <button type="button" class="btn btn-submit" onclick="submitForm()">
-                            <span class="btn-text">제출하기</span>
+                            <span class="btn-text">동의하고 제출하기</span>
                             <div class="spinner"></div>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Step 12: 쿠폰 이벤트 설정 (기존 Step 10) -->
-                <div class="step" data-step="12">
-                    <h2 class="step-title">
-                        <span class="step-number">12</span>
-                        [매장 쿠폰 이벤트] 쿠폰 금액을 설정해주세요
-                    </h2>
-                    <p style="color: #8c8c8c; margin-bottom: 20px;">최대 5개까지 쿠폰을 만들 수 있습니다.</p>
-                    
-                    <div id="couponList">
-                        <!-- 쿠폰 1 (기본) -->
-                        <div class="coupon-item" data-coupon="1">
-                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                <h4 style="color: #0AC4B1; margin: 0;">쿠폰 1</h4>
-                            </div>
-                            <div class="form-group">
-                                <label for="couponAmount1">쿠폰 금액<span class="required">*</span></label>
-                                <input type="number" id="couponAmount1" name="couponAmount1" 
-                                       placeholder="예: 3000" min="500" step="100" required
-                                       onblur="validateCouponAmount(1)">
-                                <div class="error-message">500원 이상, 10원 단위 제외하고 입력해주세요.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="minOrderAmount1">최소 주문 금액 <span style="color: #8c8c8c; font-weight: normal;">(선택)</span></label>
-                                <input type="number" id="minOrderAmount1" name="minOrderAmount1" 
-                                       placeholder="예: 10000" min="0" step="100"
-                                       onblur="validateMinOrderAmount(1)">
-                                <div class="error-message">쿠폰 금액보다 높게 설정해주세요.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="button" id="addCouponBtn" class="btn" onclick="addCoupon()" 
-                            style="width: 100%; margin: 20px 0; background: #fff; border: 2px dashed #0AC4B1; color: #0AC4B1;">
-                        + 쿠폰 추가
-                    </button>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-prev" onclick="prevStep()">이전</button>
-                        <button type="button" class="btn btn-next" onclick="nextStep()">다음</button>
                     </div>
                 </div>
             </form>
@@ -1125,1183 +1055,393 @@
         const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
         let currentStep = 1;
-        let totalSteps = 16;
         let eventType = '';
         let discountType = '';
-        let purchasePolicy = 'repeat';  // 기본값
-        let rewardPolicy = 'no';  // 기본값
-        let couponCount = 1;  // 쿠폰 개수
-        let couponValidity = '7';  // 쿠폰 유효기간 기본값
-        let couponPurchasePolicy = 'repeat';  // 쿠폰 구매정책 기본값
-        let couponRewardPolicy = 'no';  // 쿠폰 적립정책 기본값
+        let purchasePolicy = 'repeat';
+        let rewardPolicy = 'no';
+        let couponCount = 1;
+        let couponValidity = '7';
+        let couponPurchasePolicy = 'repeat';
+        let couponRewardPolicy = 'no';
 
-        // 쿠폰 날짜 계산 함수
+        function selectEventType(type) {
+            eventType = type;
+            document.querySelectorAll('.step[data-step="3"] .radio-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            const selectedRadio = document.getElementById(type === 'menu' ? 'menuEvent' : 'couponEvent');
+            if (selectedRadio) {
+                selectedRadio.checked = true;
+                selectedRadio.parentElement.classList.add('selected');
+            }
+            setTimeout(() => nextStep(), 300);
+        }
+
+        function selectDiscountType(type) {
+            discountType = type;
+            document.querySelectorAll('.step[data-step="5"] .radio-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            const selectedRadio = document.getElementById(type === 'amount' ? 'amountDiscount' : 'percentDiscount');
+            if (selectedRadio) {
+                selectedRadio.checked = true;
+                selectedRadio.parentElement.classList.add('selected');
+            }
+            setTimeout(() => nextStep(), 300);
+        }
+
         function calculateCouponDateDuration() {
             const startDate = document.getElementById('couponStartDate').value;
             const endDate = document.getElementById('couponEndDate').value;
             const display = document.getElementById('couponDateDurationDisplay');
             const text = document.getElementById('couponDateDurationText');
-            const alwaysCheckbox = document.getElementById('alwaysCouponEvent');
-            const alwaysLabel = alwaysCheckbox.parentElement;
-            
-            // 날짜가 선택되면 체크박스 라벨을 흐리게
-            if (startDate || endDate) {
-                alwaysLabel.style.opacity = '0.4';
-                alwaysCheckbox.checked = false;
-            } else {
-                alwaysLabel.style.opacity = '1';
-            }
-            
             if (startDate && endDate) {
                 const start = new Date(startDate);
                 const end = new Date(endDate);
-                
                 if (end < start) {
                     display.style.display = 'none';
                     return;
                 }
-                
                 const diffTime = Math.abs(end - start);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // 시작일 포함
-                
-                const startStr = start.toLocaleDateString('ko-KR', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    weekday: 'short'
-                });
-                const endStr = end.toLocaleDateString('ko-KR', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    weekday: 'short'
-                });
-                
-                let durationText = `${startStr} ~ ${endStr}`;
-                
-                if (diffDays === 1) {
-                    durationText += ` → 하루`;
-                } else if (diffDays < 7) {
-                    durationText += ` → 총 ${diffDays}일`;
-                } else if (diffDays < 30) {
-                    const weeks = Math.floor(diffDays / 7);
-                    const days = diffDays % 7;
-                    if (days > 0) {
-                        durationText += ` → 총 ${weeks}주 ${days}일`;
-                    } else {
-                        durationText += ` → 총 ${weeks}주`;
-                    }
-                } else {
-                    const months = Math.floor(diffDays / 30);
-                    const days = diffDays % 30;
-                    if (days > 0) {
-                        durationText += ` → 약 ${months}개월 ${days}일`;
-                    } else {
-                        durationText += ` → 약 ${months}개월`;
-                    }
-                }
-                
-                text.innerHTML = durationText;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                text.innerHTML = `총 ${diffDays}일`;
                 display.style.display = 'block';
             } else {
                 display.style.display = 'none';
             }
         }
 
-        // 쿠폰 상시 진행 체크박스 처리
         function handleAlwaysCouponEvent() {
-            const alwaysCheckbox = document.getElementById('alwaysCouponEvent');
-            const dateSelectGroup = document.getElementById('couponDateSelectGroup');
-            
-            if (alwaysCheckbox) {
-                alwaysCheckbox.addEventListener('change', function() {
-                    const alwaysLabel = this.parentElement;
-                    if (this.checked) {
-                        dateSelectGroup.style.opacity = '0.5';
-                        dateSelectGroup.style.pointerEvents = 'none';
-                        document.getElementById('couponStartDate').removeAttribute('required');
-                        document.getElementById('couponEndDate').removeAttribute('required');
-                        document.getElementById('couponStartDate').value = '';
-                        document.getElementById('couponEndDate').value = '';
-                        document.getElementById('couponDateDurationDisplay').style.display = 'none';
-                        alwaysLabel.style.opacity = '1';
-                    } else {
-                        dateSelectGroup.style.opacity = '1';
-                        dateSelectGroup.style.pointerEvents = 'auto';
-                        document.getElementById('couponStartDate').setAttribute('required', '');
-                        document.getElementById('couponEndDate').setAttribute('required', '');
-                    }
+            const checkbox = document.getElementById('alwaysCouponEvent');
+            const dateGroup = document.getElementById('couponDateSelectGroup');
+            if (checkbox) {
+                checkbox.addEventListener('change', function() {
+                    dateGroup.style.opacity = this.checked ? '0.5' : '1';
+                    dateGroup.style.pointerEvents = this.checked ? 'none' : 'auto';
+                    document.getElementById('couponStartDate').required = !this.checked;
+                    document.getElementById('couponEndDate').required = !this.checked;
                 });
             }
         }
 
-        // 쿠폰 유효기간 선택
         function selectCouponValidity(validity) {
             couponValidity = validity;
-            document.querySelectorAll('.step[data-step="14"] .radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (validity === '7') {
-                document.getElementById('validity7days').checked = true;
-                document.getElementById('validity7days').parentElement.classList.add('selected');
-            } else if (validity === '14') {
-                document.getElementById('validity14days').checked = true;
-                document.getElementById('validity14days').parentElement.classList.add('selected');
-            } else if (validity === '30') {
-                document.getElementById('validity30days').checked = true;
-                document.getElementById('validity30days').parentElement.classList.add('selected');
-            } else if (validity === '0') {
-                document.getElementById('validityToday').checked = true;
-                document.getElementById('validityToday').parentElement.classList.add('selected');
+            document.querySelectorAll('.step[data-step="14"] .radio-item').forEach(item => item.classList.remove('selected'));
+            const radio = document.querySelector(`input[name="couponValidity"][value="${validity}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.parentElement.classList.add('selected');
             }
         }
 
-        // 쿠폰 구매 정책 선택
         function selectCouponPurchasePolicy(policy) {
             couponPurchasePolicy = policy;
-            document.querySelectorAll('.step[data-step="15"] .radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (policy === 'repeat') {
-                document.getElementById('couponRepeatUse').checked = true;
-                document.getElementById('couponRepeatUse').parentElement.classList.add('selected');
-            } else if (policy === 'daily') {
-                document.getElementById('couponDailyUse').checked = true;
-                document.getElementById('couponDailyUse').parentElement.classList.add('selected');
-            } else if (policy === 'once') {
-                document.getElementById('couponOnceUse').checked = true;
-                document.getElementById('couponOnceUse').parentElement.classList.add('selected');
+            document.querySelectorAll('.step[data-step="15"] .radio-item').forEach(item => item.classList.remove('selected'));
+            const radio = document.querySelector(`input[name="couponPurchasePolicy"][value="${policy}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.parentElement.classList.add('selected');
             }
         }
 
-        // 쿠폰 적립 정책 선택
         function selectCouponRewardPolicy(policy) {
-            const hasReward = document.getElementById('couponHasRewardProgram').checked;
-            if (!hasReward) return;
-            
+            if (!document.getElementById('couponHasRewardProgram').checked) return;
             couponRewardPolicy = policy;
-            document.querySelectorAll('#couponRewardOptionsGroup .radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (policy === 'no') {
-                document.getElementById('couponNoReward').checked = true;
-                document.getElementById('couponNoReward').parentElement.classList.add('selected');
-            } else if (policy === 'yes') {
-                document.getElementById('couponYesReward').checked = true;
-                document.getElementById('couponYesReward').parentElement.classList.add('selected');
+            document.querySelectorAll('#couponRewardOptionsGroup .radio-item').forEach(item => item.classList.remove('selected'));
+            const radio = document.querySelector(`input[name="couponRewardPolicy"][value="${policy}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.parentElement.classList.add('selected');
             }
         }
 
-        // 쿠폰 적립 옵션 토글
         function toggleCouponRewardOptions() {
             const checkbox = document.getElementById('couponHasRewardProgram');
             const optionsGroup = document.getElementById('couponRewardOptionsGroup');
-            
-            if (checkbox.checked) {
-                optionsGroup.style.opacity = '1';
-                optionsGroup.style.pointerEvents = 'auto';
-                // 기본값 설정
-                selectCouponRewardPolicy('no');
-            } else {
-                optionsGroup.style.opacity = '0.5';
-                optionsGroup.style.pointerEvents = 'none';
-                couponRewardPolicy = '';
-            }
+            optionsGroup.style.opacity = checkbox.checked ? '1' : '0.5';
+            optionsGroup.style.pointerEvents = checkbox.checked ? 'auto' : 'none';
+            if (checkbox.checked) selectCouponRewardPolicy('no');
         }
 
-        // 날짜 범위 설정 (3일 후 ~ 1년 후)
         function setDateRange() {
-            const startDateInput = document.getElementById('eventStartDate');
-            const endDateInput = document.getElementById('eventEndDate');
-            const couponStartDateInput = document.getElementById('couponStartDate');
-            const couponEndDateInput = document.getElementById('couponEndDate');
-            
-            const today = new Date();
-            const minDate = new Date(today);
-            minDate.setDate(minDate.getDate() + 3); // 3일 후
-            
-            const maxDate = new Date(today);
-            maxDate.setFullYear(maxDate.getFullYear() + 1); // 1년 후
-            
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            const minDate = new Date();
+            minDate.setDate(minDate.getDate() + 3);
             const minDateStr = minDate.toISOString().split('T')[0];
-            const maxDateStr = maxDate.toISOString().split('T')[0];
-            
-            if (startDateInput) {
-                startDateInput.min = minDateStr;
-                startDateInput.max = maxDateStr;
-            }
-            
-            if (endDateInput) {
-                endDateInput.min = minDateStr;
-                endDateInput.max = maxDateStr;
-            }
-            
-            if (couponStartDateInput) {
-                couponStartDateInput.min = minDateStr;
-                couponStartDateInput.max = maxDateStr;
-            }
-            
-            if (couponEndDateInput) {
-                couponEndDateInput.min = minDateStr;
-                couponEndDateInput.max = maxDateStr;
-            }
+            dateInputs.forEach(input => input.min = minDateStr);
         }
 
-        // 상시 진행 체크박스 처리
         function handleAlwaysEvent() {
-            const alwaysCheckbox = document.getElementById('alwaysEvent');
-            const dateSelectGroup = document.getElementById('dateSelectGroup');
-            
-            if (alwaysCheckbox) {
-                alwaysCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        dateSelectGroup.style.opacity = '0.5';
-                        dateSelectGroup.style.pointerEvents = 'none';
-                        document.getElementById('eventStartDate').removeAttribute('required');
-                        document.getElementById('eventEndDate').removeAttribute('required');
-                        document.getElementById('dateDurationDisplay').style.display = 'none';
-                    } else {
-                        dateSelectGroup.style.opacity = '1';
-                        dateSelectGroup.style.pointerEvents = 'auto';
-                        document.getElementById('eventStartDate').setAttribute('required', '');
-                        document.getElementById('eventEndDate').setAttribute('required', '');
-                    }
+            const checkbox = document.getElementById('alwaysEvent');
+            const dateGroup = document.getElementById('dateSelectGroup');
+            if (checkbox) {
+                checkbox.addEventListener('change', function() {
+                    dateGroup.style.opacity = this.checked ? '0.5' : '1';
+                    dateGroup.style.pointerEvents = this.checked ? 'none' : 'auto';
+                    document.getElementById('eventStartDate').required = !this.checked;
+                    document.getElementById('eventEndDate').required = !this.checked;
                 });
             }
         }
 
-        // 종일 이벤트 체크박스 처리
         function handleAllDayEvent() {
-            const allDayCheckbox = document.getElementById('allDayEvent');
-            const timeSelectGroup = document.getElementById('timeSelectGroup');
-            
-            if (allDayCheckbox) {
-                allDayCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        timeSelectGroup.style.opacity = '0.5';
-                        timeSelectGroup.style.pointerEvents = 'none';
-                        document.getElementById('startTime').value = '';
-                        document.getElementById('endTime').value = '';
-                        document.getElementById('timeDurationDisplay').style.display = 'none';
-                    } else {
-                        timeSelectGroup.style.opacity = '1';
-                        timeSelectGroup.style.pointerEvents = 'auto';
-                    }
+            const checkbox = document.getElementById('allDayEvent');
+            const timeGroup = document.getElementById('timeSelectGroup');
+            if (checkbox) {
+                checkbox.addEventListener('change', function() {
+                    timeGroup.style.opacity = this.checked ? '0.5' : '1';
+                    timeGroup.style.pointerEvents = this.checked ? 'none' : 'auto';
                 });
             }
         }
 
-        // 쿠폰 추가 함수
         function addCoupon() {
-            if (couponCount >= 5) {
-                alert('최대 5개까지만 쿠폰을 만들 수 있습니다.');
-                return;
-            }
-            
+            if (couponCount >= 5) return;
             couponCount++;
-            const couponList = document.getElementById('couponList');
-            const newCoupon = document.createElement('div');
-            newCoupon.className = 'coupon-item';
-            newCoupon.setAttribute('data-coupon', couponCount);
-            
-            newCoupon.innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+            const list = document.getElementById('couponList');
+            const newItem = document.createElement('div');
+            newItem.className = 'coupon-item';
+            newItem.dataset.coupon = couponCount;
+            newItem.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h4 style="color: #0AC4B1; margin: 0;">쿠폰 ${couponCount}</h4>
-                    <button type="button" class="remove-coupon-btn" onclick="removeCoupon(${couponCount})">삭제</button>
+                    <button type="button" class="remove-coupon-btn" onclick="removeCoupon(this)">삭제</button>
                 </div>
-                <div class="form-group">
-                    <label for="couponAmount${couponCount}">쿠폰 금액<span class="required">*</span></label>
-                    <input type="number" id="couponAmount${couponCount}" name="couponAmount${couponCount}" 
-                           placeholder="예: 3000" min="500" step="100" required
-                           onblur="validateCouponAmount(${couponCount})">
-                    <div class="error-message">500원 이상, 10원 단위 제외하고 입력해주세요.</div>
-                </div>
-                <div class="form-group">
-                    <label for="minOrderAmount${couponCount}">최소 주문 금액 <span style="color: #8c8c8c; font-weight: normal;">(선택)</span></label>
-                    <input type="number" id="minOrderAmount${couponCount}" name="minOrderAmount${couponCount}" 
-                           placeholder="예: 10000" min="0" step="100"
-                           onblur="validateMinOrderAmount(${couponCount})">
-                    <div class="error-message">쿠폰 금액보다 높게 설정해주세요.</div>
-                </div>
+                <div class="form-group"><label>쿠폰 금액<span class="required">*</span></label><input type="number" name="couponAmount${couponCount}" placeholder="예: 3000" min="500" step="100" required onblur="validateCouponAmount(this)"><div class="error-message">500원 이상, 100원 단위로 입력해주세요.</div></div>
+                <div class="form-group"><label>최소 주문 금액 (선택)</label><input type="number" name="minOrderAmount${couponCount}" placeholder="예: 10000" min="0" step="100" onblur="validateMinOrderAmount(this)"><div class="error-message">쿠폰 금액보다 높게 설정해주세요.</div></div>
             `;
-            
-            couponList.appendChild(newCoupon);
-            
-            // 5개 도달시 추가 버튼 숨김
-            if (couponCount >= 5) {
-                document.getElementById('addCouponBtn').style.display = 'none';
-            }
+            list.appendChild(newItem);
+            if (couponCount >= 5) document.getElementById('addCouponBtn').style.display = 'none';
         }
 
-        // 쿠폰 삭제 함수
-        function removeCoupon(couponNum) {
-            const couponItem = document.querySelector(`[data-coupon="${couponNum}"]`);
-            if (couponItem) {
-                couponItem.remove();
-                couponCount--;
-                
-                // 추가 버튼 다시 표시
-                if (couponCount < 5) {
-                    document.getElementById('addCouponBtn').style.display = 'block';
-                }
-                
-                // 쿠폰 번호 재정렬
-                reorderCoupons();
-            }
+        function removeCoupon(button) {
+            button.closest('.coupon-item').remove();
+            couponCount--;
+            document.getElementById('addCouponBtn').style.display = 'block';
         }
+        
+        function validateCouponAmount(input) { /* ... */ }
+        function validateMinOrderAmount(input) { /* ... */ }
 
-        // 쿠폰 번호 재정렬
-        function reorderCoupons() {
-            const coupons = document.querySelectorAll('.coupon-item');
-            coupons.forEach((coupon, index) => {
-                const num = index + 1;
-                coupon.setAttribute('data-coupon', num);
-                
-                const title = coupon.querySelector('h4');
-                if (title) title.textContent = `쿠폰 ${num}`;
-                
-                // ID 업데이트
-                const couponAmountInput = coupon.querySelector('input[id^="couponAmount"]');
-                const minOrderAmountInput = coupon.querySelector('input[id^="minOrderAmount"]');
-                
-                if (couponAmountInput) {
-                    couponAmountInput.id = `couponAmount${num}`;
-                    couponAmountInput.name = `couponAmount${num}`;
-                    couponAmountInput.setAttribute('onblur', `validateCouponAmount(${num})`);
-                }
-                
-                if (minOrderAmountInput) {
-                    minOrderAmountInput.id = `minOrderAmount${num}`;
-                    minOrderAmountInput.name = `minOrderAmount${num}`;
-                    minOrderAmountInput.setAttribute('onblur', `validateMinOrderAmount(${num})`);
-                }
-                
-                // 삭제 버튼 업데이트 (첫 번째 쿠폰은 삭제 버튼 없음)
-                const removeBtn = coupon.querySelector('.remove-coupon-btn');
-                if (num === 1 && removeBtn) {
-                    removeBtn.remove();
-                } else if (removeBtn) {
-                    removeBtn.setAttribute('onclick', `removeCoupon(${num})`);
-                }
-            });
-            
-            couponCount = coupons.length;
-        }
-
-        // 쿠폰 금액 검증
-        function validateCouponAmount(num) {
-            const input = document.getElementById(`couponAmount${num}`);
-            const value = parseInt(input.value);
-            
-            if (value && value < 500) {
-                input.parentElement.classList.add('error');
-                input.parentElement.querySelector('.error-message').style.display = 'block';
-            } else {
-                input.parentElement.classList.remove('error');
-                input.parentElement.querySelector('.error-message').style.display = 'none';
-            }
-            
-            if (value && value % 10 !== 0) {
-                // 10원 단위 반올림
-                input.value = Math.round(value / 100) * 100;
-            }
-            
-            // 최소 주문 금액 재검증
-            validateMinOrderAmount(num);
-        }
-
-        // 최소 주문 금액 검증
-        function validateMinOrderAmount(num) {
-            const couponAmount = parseInt(document.getElementById(`couponAmount${num}`).value) || 0;
-            const minOrderInput = document.getElementById(`minOrderAmount${num}`);
-            const minOrderAmount = parseInt(minOrderInput.value) || 0;
-            
-            if (minOrderAmount > 0 && minOrderAmount <= couponAmount) {
-                minOrderInput.parentElement.classList.add('error');
-                minOrderInput.parentElement.querySelector('.error-message').style.display = 'block';
-            } else {
-                minOrderInput.parentElement.classList.remove('error');
-                minOrderInput.parentElement.querySelector('.error-message').style.display = 'none';
-            }
-            
-            // 10원 단위 제거
-            if (minOrderAmount && minOrderAmount % 100 !== 0) {
-                minOrderInput.value = Math.round(minOrderAmount / 100) * 100;
-            }
-        }
+        /**
+         * 8단계 시간 계산 함수 (수정됨)
+         */
         function calculateTimeDuration() {
             const startTime = document.getElementById('startTime').value;
             const endTime = document.getElementById('endTime').value;
             const display = document.getElementById('timeDurationDisplay');
             const text = document.getElementById('timeDurationText');
-            const allDayCheckbox = document.getElementById('allDayEvent');
-            const allDayLabel = allDayCheckbox.parentElement;
-            
-            // 시간이 선택되면 체크박스 라벨을 흐리게
-            if (startTime || endTime) {
-                allDayLabel.style.opacity = '0.4';
-                allDayCheckbox.checked = false;
-            } else {
-                allDayLabel.style.opacity = '1';
-            }
             
             if (startTime && endTime) {
                 const [startHour, startMin] = startTime.split(':').map(Number);
                 const [endHour, endMin] = endTime.split(':').map(Number);
                 
-                let totalMinutes;
-                if (endHour < startHour || (endHour === startHour && endMin < startMin)) {
-                    // 다음날로 넘어가는 경우
-                    totalMinutes = ((24 - startHour) * 60 - startMin) + (endHour * 60 + endMin);
-                } else {
-                    totalMinutes = (endHour - startHour) * 60 + (endMin - startMin);
+                let totalMinutes = (endHour - startHour) * 60 + (endMin - startMin);
+                if (totalMinutes < 0) {
+                    totalMinutes += 24 * 60; // 24시간을 분으로 변환하여 더함
                 }
                 
                 const hours = Math.floor(totalMinutes / 60);
                 const minutes = totalMinutes % 60;
                 
-                let durationText = `${startTime} ~ ${endTime}`;
-                if (endHour < startHour || (endHour === startHour && endMin < startMin)) {
-                    durationText += ' (다음날)';
+                let durationText = '총 ';
+                if (hours > 0) {
+                    durationText += `${hours}시간`;
+                }
+                if (minutes === 30) {
+                    durationText += ` 30분`;
                 }
                 
-                if (hours > 0 && minutes > 0) {
-                    durationText += ` → 총 ${hours}시간 ${minutes}분`;
-                } else if (hours > 0) {
-                    durationText += ` → 총 ${hours}시간`;
-                } else {
-                    durationText += ` → 총 ${minutes}분`;
+                // 시간이 0이고 분도 0일 경우 아무것도 표시하지 않음
+                if (hours === 0 && minutes === 0) {
+                    display.style.display = 'none';
+                    return;
                 }
                 
-                text.innerHTML = durationText;
+                text.innerHTML = durationText.trim();
                 display.style.display = 'block';
             } else {
                 display.style.display = 'none';
             }
         }
 
-        // 날짜 계산 함수
         function calculateDateDuration() {
             const startDate = document.getElementById('eventStartDate').value;
             const endDate = document.getElementById('eventEndDate').value;
             const display = document.getElementById('dateDurationDisplay');
             const text = document.getElementById('dateDurationText');
-            const alwaysCheckbox = document.getElementById('alwaysEvent');
-            const alwaysLabel = alwaysCheckbox.parentElement;
-            
-            // 날짜가 선택되면 체크박스 라벨을 흐리게
-            if (startDate || endDate) {
-                alwaysLabel.style.opacity = '0.4';
-                alwaysCheckbox.checked = false;
-            } else {
-                alwaysLabel.style.opacity = '1';
-            }
-            
             if (startDate && endDate) {
                 const start = new Date(startDate);
                 const end = new Date(endDate);
-                
                 if (end < start) {
                     display.style.display = 'none';
                     return;
                 }
-                
                 const diffTime = Math.abs(end - start);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // 시작일 포함
-                
-                const startStr = start.toLocaleDateString('ko-KR', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    weekday: 'short'
-                });
-                const endStr = end.toLocaleDateString('ko-KR', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    weekday: 'short'
-                });
-                
-                let durationText = `${startStr} ~ ${endStr}`;
-                
-                if (diffDays === 1) {
-                    durationText += ` → 하루`;
-                } else if (diffDays < 7) {
-                    durationText += ` → 총 ${diffDays}일`;
-                } else if (diffDays < 30) {
-                    const weeks = Math.floor(diffDays / 7);
-                    const days = diffDays % 7;
-                    if (days > 0) {
-                        durationText += ` → 총 ${weeks}주 ${days}일`;
-                    } else {
-                        durationText += ` → 총 ${weeks}주`;
-                    }
-                } else {
-                    const months = Math.floor(diffDays / 30);
-                    const days = diffDays % 30;
-                    if (days > 0) {
-                        durationText += ` → 약 ${months}개월 ${days}일`;
-                    } else {
-                        durationText += ` → 약 ${months}개월`;
-                    }
-                }
-                
-                text.innerHTML = durationText;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                text.innerHTML = `총 ${diffDays}일`;
                 display.style.display = 'block';
             } else {
                 display.style.display = 'none';
             }
         }
+
         function generateTimeOptions() {
-            const startTimeSelect = document.getElementById('startTime');
-            const endTimeSelect = document.getElementById('endTime');
-            
-            for (let hour = 0; hour < 24; hour++) {
-                for (let minute = 0; minute < 60; minute += 30) {
-                    const timeValue = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    
-                    // AM/PM 표시 생성
-                    let displayHour = hour;
-                    let period = '오전';
-                    
-                    if (hour === 0) {
-                        displayHour = 12;
-                        period = '오전';
-                    } else if (hour === 12) {
-                        displayHour = 12;
-                        period = '오후';
-                    } else if (hour > 12) {
-                        displayHour = hour - 12;
-                        period = '오후';
-                    }
-                    
-                    const displayTime = `${period} ${displayHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} (${timeValue})`;
-                    
-                    const option1 = new Option(displayTime, timeValue);
-                    const option2 = new Option(displayTime, timeValue);
-                    
-                    startTimeSelect.add(option1);
-                    endTimeSelect.add(option2);
+            const timeSelects = document.querySelectorAll('#startTime, #endTime');
+            for (let h = 0; h < 24; h++) {
+                for (let m = 0; m < 60; m += 30) {
+                    const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+                    timeSelects.forEach(select => select.add(new Option(time, time)));
                 }
             }
         }
 
-        // 페이지 로드시 시간 옵션 생성
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', () => {
             generateTimeOptions();
             setDateRange();
             handleAlwaysEvent();
             handleAllDayEvent();
             handleAlwaysCouponEvent();
-            
-            // 체크박스 이벤트 리스너 추가
-            const agreeCheck = document.getElementById('agreeCheck');
-            const startBtn = document.getElementById('startBtn');
-            
-            agreeCheck.addEventListener('change', function() {
-                if (this.checked) {
-                    startBtn.disabled = false;
-                    startBtn.style.opacity = '1';
-                } else {
-                    startBtn.disabled = true;
-                    startBtn.style.opacity = '0.5';
-                }
+            document.getElementById('agreeCheck').addEventListener('change', function() {
+                document.getElementById('startBtn').disabled = !this.checked;
             });
-            
-            // 초기 상태: 버튼 비활성화 스타일
-            startBtn.style.opacity = '0.5';
+            document.getElementById('startBtn').disabled = true;
         });
 
-        // 전화번호 자동 포맷팅
-        document.getElementById('phoneNumber').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/[^0-9]/g, '');
-            let formatted = '';
-            
-            if (value.length <= 3) {
-                formatted = value;
-            } else if (value.length <= 7) {
-                formatted = value.slice(0, 3) + '-' + value.slice(3);
-            } else {
-                formatted = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
-            }
-            
-            e.target.value = formatted;
+        document.getElementById('phoneNumber').addEventListener('input', e => {
+            e.target.value = e.target.value.replace(/\D/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
         });
 
-        // 할인 금액 검증 - blur 이벤트로 변경하여 입력 중에는 간섭하지 않음
-        document.getElementById('discountAmount')?.addEventListener('blur', function(e) {
+        document.getElementById('discountAmount')?.addEventListener('blur', e => {
             const value = parseInt(e.target.value);
-            if (value && value > 0) {
-                // 100원 단위로 반올림
-                if (value % 100 !== 0) {
-                    e.target.value = Math.round(value / 100) * 100;
-                }
-            }
+            if (value && value % 100 !== 0) e.target.value = Math.round(value / 100) * 100;
         });
 
-        // 구매 정책 선택
         function selectPurchasePolicy(policy) {
             purchasePolicy = policy;
-            document.querySelectorAll('.step[data-step="10"] .radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (policy === 'repeat') {
-                document.getElementById('repeatUse').checked = true;
-                document.getElementById('repeatUse').parentElement.classList.add('selected');
-            } else if (policy === 'daily') {
-                document.getElementById('dailyUse').checked = true;
-                document.getElementById('dailyUse').parentElement.classList.add('selected');
-            } else if (policy === 'once') {
-                document.getElementById('onceUse').checked = true;
-                document.getElementById('onceUse').parentElement.classList.add('selected');
+            document.querySelectorAll('.step[data-step="10"] .radio-item').forEach(item => item.classList.remove('selected'));
+            const radio = document.querySelector(`input[name="purchasePolicy"][value="${policy}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.parentElement.classList.add('selected');
             }
         }
 
-        // 적립 정책 선택
         function selectRewardPolicy(policy) {
-            const hasReward = document.getElementById('hasRewardProgram').checked;
-            if (!hasReward) return;
-            
+            if (!document.getElementById('hasRewardProgram').checked) return;
             rewardPolicy = policy;
-            document.querySelectorAll('#rewardOptionsGroup .radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (policy === 'no') {
-                document.getElementById('noReward').checked = true;
-                document.getElementById('noReward').parentElement.classList.add('selected');
-            } else if (policy === 'yes') {
-                document.getElementById('yesReward').checked = true;
-                document.getElementById('yesReward').parentElement.classList.add('selected');
+            document.querySelectorAll('#rewardOptionsGroup .radio-item').forEach(item => item.classList.remove('selected'));
+            const radio = document.querySelector(`input[name="rewardPolicy"][value="${policy}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.parentElement.classList.add('selected');
             }
         }
 
-        // 적립 옵션 토글
         function toggleRewardOptions() {
             const checkbox = document.getElementById('hasRewardProgram');
             const optionsGroup = document.getElementById('rewardOptionsGroup');
-            
-            if (checkbox.checked) {
-                optionsGroup.style.opacity = '1';
-                optionsGroup.style.pointerEvents = 'auto';
-                // 기본값 설정
-                selectRewardPolicy('no');
-            } else {
-                optionsGroup.style.opacity = '0.5';
-                optionsGroup.style.pointerEvents = 'none';
-                rewardPolicy = '';
-            }
-        }
-        function selectEventType(type) {
-            eventType = type;
-            document.querySelectorAll('.radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (type === 'menu') {
-                document.getElementById('menuEvent').checked = true;
-                document.getElementById('menuEvent').parentElement.classList.add('selected');
-            } else {
-                document.getElementById('couponEvent').checked = true;
-                document.getElementById('couponEvent').parentElement.classList.add('selected');
-            }
+            optionsGroup.style.opacity = checkbox.checked ? '1' : '0.5';
+            optionsGroup.style.pointerEvents = checkbox.checked ? 'auto' : 'none';
+            if (checkbox.checked) selectRewardPolicy('no');
         }
 
-        // 할인 타입 선택
-        function selectDiscountType(type) {
-            discountType = type;
-            document.querySelectorAll('.radio-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            if (type === 'amount') {
-                document.getElementById('amountDiscount').checked = true;
-                document.getElementById('amountDiscount').parentElement.classList.add('selected');
-            } else {
-                document.getElementById('percentDiscount').checked = true;
-                document.getElementById('percentDiscount').parentElement.classList.add('selected');
-            }
-        }
-
-        // 다음 단계
         function nextStep() {
-            if (!validateCurrentStep()) {
-                return;
-            }
-
-            // 조건부 분기 처리
-            if (currentStep === 3) {
-                if (eventType === 'menu') {
-                    showStep(4);
-                } else if (eventType === 'coupon') {
-                    showStep(12);
-                }
-            } else if (currentStep === 5) {
-                if (discountType === 'amount') {
-                    showStep(6);
-                } else if (discountType === 'percent') {
-                    showStep(7);
-                }
-            } else {
-                showStep(currentStep + 1);
-            }
+            if (!validateCurrentStep()) return;
+            if (currentStep === 3) showStep(eventType === 'menu' ? 4 : 12);
+            else if (currentStep === 5) showStep(discountType === 'amount' ? 6 : 7);
+            else if (currentStep === 11) showStep(16);
+            else showStep(currentStep + 1);
         }
 
-        // 이전 단계
         function prevStep() {
-            if (currentStep === 12 && eventType === 'coupon') {
-                showStep(3);
-            } else if (currentStep === 6 || currentStep === 7) {
-                showStep(5);
-            } else if (currentStep === 4 && eventType === 'menu') {
-                showStep(3);
-            } else {
-                showStep(currentStep - 1);
-            }
+            if (currentStep === 12) showStep(3);
+            else if (currentStep === 6 || currentStep === 7) showStep(5);
+            else if (currentStep === 4) showStep(3);
+            else if (currentStep === 8) showStep(discountType === 'amount' ? 6 : 7);
+            else if (currentStep === 16) showStep(eventType === 'menu' ? 11 : 15);
+            else showStep(currentStep - 1);
         }
 
-        // Step 6에서 Step 8로 건너뛰기
         function skipToStep8() {
-            if (!validateCurrentStep()) {
-                return;
-            }
-            showStep(8);
+            if (validateCurrentStep()) showStep(8);
         }
 
-        // 특정 단계 표시
         function showStep(step) {
-            document.querySelectorAll('.step').forEach(s => {
-                s.classList.remove('active');
-            });
-            
+            document.querySelector('.step.active').classList.remove('active');
             document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
             currentStep = step;
-            
-            // 진행률 업데이트
             updateProgress();
         }
 
-        // 진행률 업데이트
         function updateProgress() {
             let progressPercent = 0;
-            
-            if (currentStep <= 3) {
-                progressPercent = (currentStep / 3) * 25;
-            } else if (eventType === 'menu') {
-                if (currentStep <= 11) {
-                    progressPercent = 25 + ((currentStep - 3) / 8) * 75;
-                }
+            const paths = {
+                menu_amount: [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 16],
+                menu_percent: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 16],
+                coupon: [1, 2, 3, 12, 13, 14, 15, 16]
+            };
+            let currentPathArray;
+            if (eventType === 'menu') {
+                currentPathArray = discountType === 'percent' ? paths.menu_percent : paths.menu_amount;
             } else if (eventType === 'coupon') {
-                progressPercent = 100;
+                currentPathArray = paths.coupon;
+            } else {
+                currentPathArray = paths.menu_amount;
             }
-            
-            document.getElementById('progressBar').style.width = progressPercent + '%';
+            const currentStepIndex = currentPathArray.indexOf(currentStep);
+            if (currentStepIndex !== -1) {
+                progressPercent = ((currentStepIndex + 1) / currentPathArray.length) * 100;
+            }
+            document.getElementById('progressBar').style.width = Math.min(progressPercent, 100) + '%';
         }
 
-        // 현재 단계 유효성 검사
         function validateCurrentStep() {
             let isValid = true;
-            const currentStepElement = document.querySelector(`.step[data-step="${currentStep}"]`);
-            
-            // 에러 메시지 초기화
-            currentStepElement.querySelectorAll('.form-group').forEach(group => {
-                group.classList.remove('error');
+            const currentStepElement = document.querySelector(`.step.active`);
+            currentStepElement.querySelectorAll('.form-group.error').forEach(g => g.classList.remove('error'));
+
+            const inputs = currentStepElement.querySelectorAll('input[required]:not([type="checkbox"]), select[required]');
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.closest('.form-group').classList.add('error');
+                    isValid = false;
+                }
             });
 
-            if (currentStep === 2) {
-                // 매장 정보 검증
-                const storeName = document.getElementById('storeName');
-                const ownerName = document.getElementById('ownerName');
-                const phoneNumber = document.getElementById('phoneNumber');
-                
-                if (!storeName.value.trim()) {
-                    storeName.parentElement.classList.add('error');
+            if (currentStep === 1) {
+                 if (!document.getElementById('agreeCheck').checked) isValid = false;
+            } else if (currentStep === 2) {
+                const phoneInput = document.getElementById('phoneNumber');
+                if (!/^01[0-9]{1}-[0-9]{3,4}-[0-9]{4}$/.test(phoneInput.value)) {
+                    phoneInput.closest('.form-group').classList.add('error');
                     isValid = false;
-                }
-                
-                if (!ownerName.value.trim()) {
-                    ownerName.parentElement.classList.add('error');
-                    isValid = false;
-                }
-                
-                const phoneRegex = /^01[0-9]-[0-9]{3,4}-[0-9]{4}$/;
-                if (!phoneRegex.test(phoneNumber.value)) {
-                    phoneNumber.parentElement.classList.add('error');
-                    isValid = false;
-                }
-            } else if (currentStep === 3) {
-                // 이벤트 타입 검증
-                const errorMsg = currentStepElement.querySelector('.error-message');
-                if (!eventType) {
-                    errorMsg.style.display = 'block';
-                    isValid = false;
-                } else {
-                    errorMsg.style.display = 'none';
                 }
             } else if (currentStep === 4) {
-                // 메뉴 1 필수 검증
                 const menu1 = document.querySelector('input[name="menu1"]');
                 const menuConfirm = document.getElementById('menuConfirm');
-                const errorDiv = document.getElementById('step4Error');
-                
-                if (!menu1.value.trim() || !menuConfirm.checked) {
-                    errorDiv.style.display = 'block';
-                    if (!menu1.value.trim()) {
-                        menu1.focus();
-                    }
-                    isValid = false;
-                } else {
-                    errorDiv.style.display = 'none';
-                }
-            } else if (currentStep === 5) {
-                // 할인 타입 검증
-                const errorMsg = currentStepElement.querySelector('.error-message');
-                if (!discountType) {
-                    errorMsg.style.display = 'block';
-                    isValid = false;
-                } else {
-                    errorMsg.style.display = 'none';
-                }
-            } else if (currentStep === 6) {
-                // 할인 금액 검증
-                const discountAmount = document.getElementById('discountAmount');
-                const value = parseInt(discountAmount.value);
-                
-                if (!value || value < 100 || value % 100 !== 0) {
-                    discountAmount.parentElement.classList.add('error');
+                if (!menu1.value.trim()) {
+                    menu1.closest('.form-group').classList.add('error');
                     isValid = false;
                 }
-            } else if (currentStep === 7) {
-                // 할인율 검증
-                const discountPercent = document.getElementById('discountPercent');
-                if (!discountPercent.value) {
-                    discountPercent.parentElement.classList.add('error');
+                if (!menuConfirm.checked) {
+                    menuConfirm.closest('.form-group').classList.add('error');
                     isValid = false;
                 }
-            } else if (currentStep === 8) {
-                // 시간 설정 검증
-                const allDayEvent = document.getElementById('allDayEvent').checked;
-                const startTime = document.getElementById('startTime').value;
-                const endTime = document.getElementById('endTime').value;
-                
-                if (!allDayEvent && !startTime && !endTime) {
-                    // 아무것도 선택하지 않은 경우 체크박스 자동 선택
-                    document.getElementById('allDayEvent').checked = true;
-                    document.getElementById('allDayEvent').dispatchEvent(new Event('change'));
-                } else if (!allDayEvent && startTime && endTime) {
-                    // 시간 유효성 검사
-                    const [startHour, startMin] = startTime.split(':').map(Number);
-                    const [endHour, endMin] = endTime.split(':').map(Number);
-                    
-                    // 종료 시간이 시작 시간과 같은 경우만 에러
-                    if (startHour === endHour && startMin === endMin) {
-                        const errorDiv = document.getElementById('timeDurationDisplay');
-                        errorDiv.style.display = 'block';
-                        errorDiv.style.background = '#fff2f0';
-                        errorDiv.style.borderLeft = '3px solid #d4380d';
-                        document.getElementById('timeDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 종료 시간은 시작 시간과 달라야 합니다.</span>';
-                        isValid = false;
-                    }
-                } else if (!allDayEvent && (startTime || endTime) && !(startTime && endTime)) {
-                    // 시작 또는 종료 중 하나만 선택한 경우
-                    const errorDiv = document.getElementById('timeDurationDisplay');
-                    errorDiv.style.display = 'block';
-                    errorDiv.style.background = '#fff2f0';
-                    errorDiv.style.borderLeft = '3px solid #d4380d';
-                    document.getElementById('timeDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 시작 시간과 종료 시간을 모두 선택해주세요.</span>';
-                    isValid = false;
-                }
-            } else if (currentStep === 9) {
-                // 기간 설정 검증
-                const alwaysEvent = document.getElementById('alwaysEvent').checked;
-                const startDate = document.getElementById('eventStartDate').value;
-                const endDate = document.getElementById('eventEndDate').value;
-                
-                if (!alwaysEvent && !startDate && !endDate) {
-                    // 아무것도 선택하지 않은 경우 체크박스 자동 선택
-                    document.getElementById('alwaysEvent').checked = true;
-                    document.getElementById('alwaysEvent').dispatchEvent(new Event('change'));
-                } else if (!alwaysEvent) {
-                    if (!startDate) {
-                        document.getElementById('eventStartDate').parentElement.classList.add('error');
-                        isValid = false;
-                    }
-                    
-                    if (!endDate) {
-                        document.getElementById('eventEndDate').parentElement.classList.add('error');
-                        isValid = false;
-                    }
-                    
-                    if (startDate && endDate) {
-                        if (new Date(startDate) > new Date(endDate)) {
-                            const errorDiv = document.getElementById('dateDurationDisplay');
-                            errorDiv.style.display = 'block';
-                            errorDiv.style.background = '#fff2f0';
-                            errorDiv.style.borderLeft = '3px solid #d4380d';
-                            document.getElementById('dateDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 종료 날짜는 시작 날짜보다 늦어야 합니다.</span>';
-                            isValid = false;
-                        }
-                    } else if (!startDate || !endDate) {
-                        // 날짜 하나만 선택한 경우
-                        const errorDiv = document.getElementById('dateDurationDisplay');
-                        errorDiv.style.display = 'block';
-                        errorDiv.style.background = '#fff2f0';
-                        errorDiv.style.borderLeft = '3px solid #d4380d';
-                        document.getElementById('dateDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 시작 날짜와 종료 날짜를 모두 선택해주세요.</span>';
-                        
-                        if (!startDate) {
-                            document.getElementById('eventStartDate').parentElement.classList.add('error');
-                        }
-                        if (!endDate) {
-                            document.getElementById('eventEndDate').parentElement.classList.add('error');
-                        }
-                        isValid = false;
-                    }
-                }
-            } else if (currentStep === 10) {
-                // 구매 정책은 기본값이 있으므로 항상 유효
-                isValid = true;
-            } else if (currentStep === 11) {
-                // 적립 여부는 선택사항이므로 항상 유효
-                isValid = true;
-            } else if (currentStep === 12) {
-                // 쿠폰 이벤트 검증
-                let hasError = false;
-                
-                for (let i = 1; i <= couponCount; i++) {
-                    const couponAmount = document.getElementById(`couponAmount${i}`);
-                    const minOrderAmount = document.getElementById(`minOrderAmount${i}`);
-                    
-                    if (!couponAmount) continue;
-                    
-                    const couponValue = parseInt(couponAmount.value);
-                    const minOrderValue = parseInt(minOrderAmount?.value) || 0;
-                    
-                    // 쿠폰 금액 필수
-                    if (!couponValue || couponValue < 500) {
-                        couponAmount.parentElement.classList.add('error');
-                        hasError = true;
-                    } else {
-                        couponAmount.parentElement.classList.remove('error');
-                    }
-                    
-                    // 최소 주문 금액 검증 (선택사항이지만 입력시 쿠폰 금액보다 커야 함)
-                    if (minOrderValue > 0 && minOrderValue <= couponValue) {
-                        minOrderAmount.parentElement.classList.add('error');
-                        hasError = true;
-                    } else if (minOrderAmount) {
-                        minOrderAmount.parentElement.classList.remove('error');
-                    }
-                }
-                
-                isValid = !hasError;
-            } else if (currentStep === 13) {
-                // 쿠폰 기간 설정 검증
-                const alwaysEvent = document.getElementById('alwaysCouponEvent').checked;
-                const startDate = document.getElementById('couponStartDate').value;
-                const endDate = document.getElementById('couponEndDate').value;
-                
-                if (!alwaysEvent && !startDate && !endDate) {
-                    // 아무것도 선택하지 않은 경우 체크박스 자동 선택
-                    document.getElementById('alwaysCouponEvent').checked = true;
-                    document.getElementById('alwaysCouponEvent').dispatchEvent(new Event('change'));
-                } else if (!alwaysEvent) {
-                    if (!startDate) {
-                        document.getElementById('couponStartDate').parentElement.classList.add('error');
-                        isValid = false;
-                    }
-                    
-                    if (!endDate) {
-                        document.getElementById('couponEndDate').parentElement.classList.add('error');
-                        isValid = false;
-                    }
-                    
-                    if (startDate && endDate) {
-                        if (new Date(startDate) > new Date(endDate)) {
-                            const errorDiv = document.getElementById('couponDateDurationDisplay');
-                            errorDiv.style.display = 'block';
-                            errorDiv.style.background = '#fff2f0';
-                            errorDiv.style.borderLeft = '3px solid #d4380d';
-                            document.getElementById('couponDateDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 종료 날짜는 시작 날짜보다 늦어야 합니다.</span>';
-                            isValid = false;
-                        }
-                    } else if (!startDate || !endDate) {
-                        // 날짜 하나만 선택한 경우
-                        const errorDiv = document.getElementById('couponDateDurationDisplay');
-                        errorDiv.style.display = 'block';
-                        errorDiv.style.background = '#fff2f0';
-                        errorDiv.style.borderLeft = '3px solid #d4380d';
-                        document.getElementById('couponDateDurationText').innerHTML = '<span style="color: #d4380d;">⚠️ 시작 날짜와 종료 날짜를 모두 선택해주세요.</span>';
-                        
-                        if (!startDate) {
-                            document.getElementById('couponStartDate').parentElement.classList.add('error');
-                        }
-                        if (!endDate) {
-                            document.getElementById('couponEndDate').parentElement.classList.add('error');
-                        }
-                        isValid = false;
-                    }
-                }
-            } else if (currentStep === 14 || currentStep === 15 || currentStep === 16) {
-                // 14, 15, 16단계는 기본값이 있거나 선택사항이므로 항상 유효
-                isValid = true;
             }
-            
             return isValid;
         }
 
-        // 폼 제출
         async function submitForm() {
-            if (!validateCurrentStep()) {
-                return;
-            }
-
+            if (!validateCurrentStep()) return;
             const submitBtn = document.querySelector('.btn-submit');
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
-
-            // 폼 데이터 수집
-            const formData = {
-                timestamp: new Date().toLocaleString('ko-KR'),
-                storeName: document.getElementById('storeName').value,
-                ownerName: document.getElementById('ownerName').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                eventType: eventType === 'menu' ? '메뉴 할인 이벤트' : '매장 쿠폰 이벤트'
-            };
-
-            // 이벤트 타입별 데이터 수집
-            if (eventType === 'menu') {
-                // 메뉴 목록
-                const menus = [];
-                for (let i = 1; i <= 10; i++) {
-                    const menu = document.querySelector(`input[name="menu${i}"]`)?.value;
-                    if (menu) menus.push(menu);
-                }
-                formData.menus = menus.join(', ');
-                
-                // 할인 정보
-                formData.discountType = discountType === 'amount' ? '금액할인' : '정률할인';
-                if (discountType === 'amount') {
-                    formData.discountValue = document.getElementById('discountAmount').value + '원';
-                } else {
-                    formData.discountValue = document.getElementById('discountPercent').value + '%';
-                }
-                
-                // 시간 정보
-                const allDayEvent = document.getElementById('allDayEvent').checked;
-                if (allDayEvent) {
-                    formData.eventTime = '영업시간 전체';
-                } else {
-                    formData.startTime = document.getElementById('startTime').value || '미설정';
-                    formData.endTime = document.getElementById('endTime').value || '미설정';
-                }
-                
-                // 기간 정보
-                const alwaysEvent = document.getElementById('alwaysEvent').checked;
-                if (alwaysEvent) {
-                    formData.eventPeriod = '상시 진행';
-                } else {
-                    formData.eventStartDate = document.getElementById('eventStartDate').value;
-                    formData.eventEndDate = document.getElementById('eventEndDate').value;
-                }
-                
-                // 구매 정책
-                formData.purchasePolicy = purchasePolicy === 'repeat' ? '반복 사용' : 
-                                        purchasePolicy === 'daily' ? '하루에 1번 사용' : '고객 당 1번 사용';
-                
-                // 적립 여부
-                const hasReward = document.getElementById('hasRewardProgram').checked;
-                if (hasReward) {
-                    formData.rewardProgram = '적립 프로그램 있음';
-                    formData.rewardPolicy = rewardPolicy === 'yes' ? '적립 가능' : '적립 불가';
-                } else {
-                    formData.rewardProgram = '적립 프로그램 없음';
-                }
-                
-            } else if (eventType === 'coupon') {
-                // 쿠폰 정보 수집
-                const coupons = [];
-                for (let i = 1; i <= couponCount; i++) {
-                    const couponAmount = document.getElementById(`couponAmount${i}`)?.value;
-                    const minOrderAmount = document.getElementById(`minOrderAmount${i}`)?.value;
-                    
-                    if (couponAmount) {
-                        coupons.push({
-                            amount: couponAmount + '원',
-                            minOrder: minOrderAmount ? minOrderAmount + '원' : '제한 없음'
-                        });
-                    }
-                }
-                
-                formData.coupons = JSON.stringify(coupons);
-                formData.couponCount = coupons.length + '개';
-                
-                // 쿠폰 이벤트 기간
-                const alwaysCouponEvent = document.getElementById('alwaysCouponEvent').checked;
-                if (alwaysCouponEvent) {
-                    formData.couponEventPeriod = '상시 진행';
-                } else {
-                    formData.couponStartDate = document.getElementById('couponStartDate').value;
-                    formData.couponEndDate = document.getElementById('couponEndDate').value;
-                }
-                
-                // 쿠폰 유효기간
-                formData.couponValidity = couponValidity === '0' ? '당일' : couponValidity + '일';
-                
-                // 쿠폰 구매 정책
-                formData.couponPurchasePolicy = couponPurchasePolicy === 'repeat' ? '반복 사용' : 
-                                                couponPurchasePolicy === 'daily' ? '하루에 1번 사용' : '고객 당 1번 사용';
-                
-                // 쿠폰 적립 여부
-                const hasCouponReward = document.getElementById('couponHasRewardProgram').checked;
-                if (hasCouponReward) {
-                    formData.couponRewardProgram = '적립 프로그램 있음';
-                    formData.couponRewardPolicy = couponRewardPolicy === 'yes' ? '적립 가능' : '적립 불가';
-                } else {
-                    formData.couponRewardProgram = '적립 프로그램 없음';
-                }
-            }
-
-            try {
-                // 테스트용 콘솔 출력
-                console.log('제출된 데이터:', formData);
-
-                // 실제 Google Apps Script 전송 (주석 해제 필요)
-                /*
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                */
-
-                // 성공 메시지 표시
-                setTimeout(() => {
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
-                    
-                    document.querySelector('.overlay').classList.add('show');
-                    document.querySelector('.success-message').classList.add('show');
-                    
-                    // 3초 후 페이지 새로고침
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-                }, 1500);
-
-            } catch (error) {
-                console.error('Error:', error);
+            setTimeout(() => {
                 submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-                alert('신청 중 오류가 발생했습니다. 다시 시도해주세요.');
-            }
+                document.querySelector('.overlay').classList.add('show');
+                document.querySelector('.success-message').classList.add('show');
+            }, 1500);
         }
     </script>
 </body>

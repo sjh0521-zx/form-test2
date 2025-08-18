@@ -2446,5 +2446,183 @@
 })();
 </script>
 <!-- === /Conflict-free GAS Sheet2 submit patch === -->
+
+<!-- === Behavior patch v2: Step11=Submit, compact time result, compact date result === -->
+<script>
+(function() {
+  // utilities
+  const $ = (sel, root=document) => root.querySelector(sel);
+
+  function minutesFromHHMM(v) {
+    if (!v) return null;
+    const p = v.split(':');
+    if (p.length !== 2) return null;
+    const hh = Number(p[0]), mm = Number(p[1]);
+    if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
+    return hh * 60 + mm;
+  }
+
+  function format30(mins) {
+    if (mins == null || mins <= 0) return "";
+    const rounded = Math.round(mins / 30) * 30;
+    const h = Math.floor(rounded / 60);
+    const m = rounded % 60;
+    if (m === 0) return `총 ${h}시간`;
+    if (m === 30) return `총 ${h}시간 30분`;
+    return `총 ${h}시간 ${m}분`; // fallback (이상치)
+  }
+
+  function inclusiveDays(s, e) {
+    if (!s || !e) return null;
+    const sd = new Date(s + "T00:00:00");
+    const ed = new Date(e + "T00:00:00");
+    if (isNaN(sd) || isNaN(ed)) return null;
+    const diff = (ed - sd) / (1000*60*60*24);
+    const days = Math.floor(diff) + 1;
+    return days > 0 ? days : null;
+  }
+
+  // --- Step 8: 시간 결과 - 선택 시각 숨기고 총 N시간(NN분)만 노출
+  window.calculateTimeDuration = function() {
+    const display = $('#timeDurationDisplay');
+    const textEl  = $('#timeDurationText');
+    const allDay  = $('#allDayEvent');
+    const stSel   = $('#startTime');
+    const etSel   = $('#endTime');
+    if (!display || !textEl) return;
+
+    if (allDay && allDay.checked) {
+      display.style.display = 'block';
+      textEl.textContent = '영업시간 전체';
+      return;
+    }
+
+    const sVal = stSel?.value || "";
+    theVal = etSel?.value || "";
+    if (!sVal || !theVal) {
+      display.style.display = 'none';
+      textEl.textContent = '';
+      return;
+    }
+
+    let s = minutesFromHHMM(sVal);
+    let e = minutesFromHHMM(theVal);
+    if (s == null || e == null) {
+      display.style.display = 'none';
+      textEl.textContent = '';
+      return;
+    }
+
+    // 다음날 넘어감 허용
+    let mins = (e <= s) ? (24*60 - s) + e : (e - s);
+    const out = format30(mins);
+    if (out) {
+      display.style.display = 'block';
+      textEl.textContent = out; // 시작/종료 시각은 노출하지 않음
+    } else {
+      display.style.display = 'none';
+      textEl.textContent = '';
+    }
+  };
+
+  // --- Step 9: 기간 결과 - 날짜 숨기고 총 N일만 노출
+  window.calculateDateDuration = function() {
+    const display = $('#dateDurationDisplay');
+    const textEl  = $('#dateDurationText');
+    const always  = $('#alwaysEvent');
+    const sEl     = $('#eventStartDate');
+    const eEl     = $('#eventEndDate');
+    if (!display || !textEl) return;
+
+    if (always && always.checked) {
+      display.style.display = 'block';
+      textEl.textContent = '상시 진행';
+      return;
+    }
+
+    const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
+    if (days) {
+      display.style.display = 'block';
+      textEl.textContent = `총 ${days}일`;
+    } else {
+      display.style.display = 'none';
+      textEl.textContent = '';
+    }
+  };
+
+  // --- Step 13: 쿠폰 기간 결과 - 날짜 숨기고 총 N일만 노출
+  window.calculateCouponDateDuration = function() {
+    const display = $('#couponDateDurationDisplay');
+    const textEl  = $('#couponDateDurationText');
+    const always  = $('#alwaysCouponEvent');
+    const sEl     = $('#couponStartDate');
+    const eEl     = $('#couponEndDate');
+    if (!display || !textEl) return;
+
+    if (always && always.checked) {
+      display.style.display = 'block';
+      textEl.textContent = '상시 진행';
+      return;
+    }
+
+    const days = inclusiveDays(sEl?.value || "", eEl?.value || "");
+    if (days) {
+      display.style.display = 'block';
+      textEl.textContent = `총 ${days}일`;
+    } else {
+      display.style.display = 'none';
+      textEl.textContent = '';
+    }
+  };
+
+  // --- Step 11: '다음'이 아닌 무조건 '제출'
+  function forceSubmitOnStep11() {
+    const step = document.querySelector('[data-step="11"]');
+    if (!step) return;
+    const btn = step.querySelector('.btn-next');
+    if (!btn) return;
+
+    btn.textContent = '제출';
+    btn.setAttribute('type', 'submit');
+
+    const form = document.getElementById('eventForm');
+    btn.addEventListener('click', function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (form && typeof form.requestSubmit === 'function') {
+        form.requestSubmit();
+      } else if (typeof window.submitForm === 'function') {
+        window.submitForm(ev);
+      }
+    }, { capture: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // 실시간 바인딩
+    ['change','input'].forEach(evt => {
+      $('#startTime')?.addEventListener(evt, window.calculateTimeDuration);
+      $('#endTime')?.addEventListener(evt, window.calculateTimeDuration);
+      $('#allDayEvent')?.addEventListener('change', window.calculateTimeDuration);
+
+      $('#eventStartDate')?.addEventListener(evt, window.calculateDateDuration);
+      $('#eventEndDate')?.addEventListener(evt, window.calculateDateDuration);
+      $('#alwaysEvent')?.addEventListener('change', window.calculateDateDuration);
+
+      $('#couponStartDate')?.addEventListener(evt, window.calculateCouponDateDuration);
+      $('#couponEndDate')?.addEventListener(evt, window.calculateCouponDateDuration);
+      $('#alwaysCouponEvent')?.addEventListener('change', window.calculateCouponDateDuration);
+    });
+
+    // 초기 계산
+    window.calculateTimeDuration();
+    window.calculateDateDuration();
+    window.calculateCouponDateDuration();
+
+    // 11단계 강제 제출
+    forceSubmitOnStep11();
+  });
+})();
+</script>
+<!-- === /Behavior patch v2 === -->
 </body>
 </html>

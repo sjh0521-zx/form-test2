@@ -2242,5 +2242,99 @@
             }
         }
     </script>
+
+<!-- === GAS Sheet2 submit patch (menuConfirm → "메뉴 확인") === -->
+<script>
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwp4fo-0wwr8xF1yuE2xz-TFeHm5u_wUqiACl5g05aPonrU2sKCyKFOncXtNvVCjYQXFA/exec";
+  const $$ = (sel, root=document) => root.querySelector(sel);
+  const firstVal = (selectors) => { for (const s of selectors) { const el = document.querySelector(s); if (!el) continue; const t = (el.value ?? "").trim(); if (t) return t; } return ""; };
+  const firstChecked = (selectors) => { for (const s of selectors) { const el = document.querySelector(s); if (el && el.checked) return true; } return false; };
+  const mapPolicy = (code) => ({ repeat:"반복 사용", daily:"하루에 1번 사용", once:"고객 당 1번 사용" })[code] || code || "";
+  const mapReward = (code) => code === "yes" ? "적립 가능" : (code === "no" ? "적립 불가" : (code || ""));
+
+  async function __sheet2Submit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    try { if (typeof validateCurrentStep === 'function' && !validateCurrentStep()) return; } catch(_e) { }
+    const btn = document.querySelector('.btn-submit'); if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+
+    try {
+      const out = new URLSearchParams();
+      out.set("제출 시간", new Date().toLocaleString("ko-KR"));
+      out.set("안내사항 확인", firstChecked(["#agreeCheck","[name=agree]"]) ? "예" : "");
+
+      out.set("매장명", firstVal(["#storeName","[name=storeName]"]));
+      out.set("사장님 성함", firstVal(["#ownerName","[name=ownerName]"]));
+      out.set("사장님 연락처", firstVal(["#phoneNumber","#ownerPhone","[name=phoneNumber]","[name=ownerPhone]"]));
+
+      let evtRaw = (typeof window!=="undefined" && window.eventType) ? window.eventType : firstVal(["#eventType","[name=eventType]"]);
+      let evt = evtRaw === "menu" ? "메뉴 할인 이벤트" : (evtRaw === "coupon" ? "매장 쿠폰 이벤트" : "");
+      out.set("이벤트 선택", evt);
+
+      for (let i=1;i<=10;i++) { const v = firstVal([`#menu${i}`,`[name=menu${i}]`]); out.set(`메뉴${i}`, v); }
+
+      const menuConfirmEl = document.querySelector('#menuConfirm') || document.querySelector('[name=menuConfirm]');
+      if (menuConfirmEl) {
+        if ((menuConfirmEl.type||'').toLowerCase()==='checkbox') {
+          out.set("메뉴 확인", menuConfirmEl.checked ? (menuConfirmEl.value || "예") : "");
+        } else {
+          const v = (menuConfirmEl.value||"").trim();
+          if (v) out.set("메뉴 확인", v);
+          else { const menus=[]; for (let i=1;i<=10;i++) { const t=out.get(`메뉴${i}`); if (t) menus.push(t); } out.set("메뉴 확인", menus.join(", ")); }
+        }
+      } else { const menus=[]; for (let i=1;i<=10;i++) { const t=out.get(`메뉴${i}`); if (t) menus.push(t); } out.set("메뉴 확인", menus.join(", ")); }
+
+      let dTypeRaw = (typeof window!=="undefined" && window.discountType) ? window.discountType : firstVal(["#discountType","[name=discountType]"]);
+      let dType = dTypeRaw === "amount" ? "금액할인" : (dTypeRaw === "percent" ? "정률할인" : "");
+      out.set("할인 방식", dType);
+      const amount = firstVal(["#discountAmount","[name=discountAmount]"]);
+      const percent = firstVal(["#discountPercent","[name=discountPercent]"]);
+      out.set("금액", amount ? `${amount}원` : "");
+      out.set("정률", percent ? `${percent}%` : "");
+
+      const allDay = firstChecked(["#allDayEvent","[name=allDayEvent]"]);
+      out.set("시간 선택 안함", allDay ? "예" : "");
+      out.set("이벤트 시작 시간", allDay ? "" : firstVal(["#startTime","[name=startTime]"]));
+      out.set("이벤트 종료 시간", allDay ? "" : firstVal(["#endTime","[name=endTime]"]));
+
+      const always = firstChecked(["#alwaysEvent","[name=alwaysEvent]"]);
+      out.set("기간 선택 안함", always ? "예" : "");
+      out.set("이벤트 시작 날짜", always ? "" : firstVal(["#eventStartDate","[name=eventStartDate]"]));
+      out.set("이벤트 종료 날짜", always ? "" : firstVal(["#eventEndDate","[name=eventEndDate]"]));
+
+      let pol = (typeof window!=="undefined" && window.purchasePolicy) ? window.purchasePolicy : firstVal(["#purchasePolicy","[name=purchasePolicy]"]);
+      out.set("구매 정책", mapPolicy(pol));
+      out.set("적립 확인", firstChecked(["#hasRewardProgram","[name=hasRewardProgram]"]) ? "예" : "");
+      let rpol = (typeof window!=="undefined" && window.rewardPolicy) ? window.rewardPolicy : firstVal(["#rewardPolicy","[name=rewardPolicy]"]);
+      out.set("적립 여부", mapReward(rpol));
+
+      for (let i=1;i<=5;i++) { const ca = firstVal([`#couponAmount${i}`,`[name=couponAmount${i}]`]); const mo = firstVal([`#minOrderAmount${i}`,`[name=minOrderAmount${i}]`]); out.set(`${i}쿠폰금액`, ca ? `${ca}원` : ""); out.set(`${i}최소주문금액`, mo ? `${mo}원` : ""); }
+
+      const alwaysC = firstChecked(["#alwaysCouponEvent","[name=alwaysCouponEvent]"]);
+      out.set("기간 선택 안함 - 쿠폰", alwaysC ? "예" : "");
+      out.set("이벤트 시작 날짜 - 쿠폰", alwaysC ? "" : firstVal(["#couponStartDate","[name=couponStartDate]"]));
+      out.set("이벤트 종료 날짜  - 쿠폰", alwaysC ? "" : firstVal(["#couponEndDate","[name=couponEndDate]"]));
+
+      let validity = (typeof window!=="undefined" ? window.couponValidity : undefined);
+      if (validity===undefined || validity==="") validity = firstVal(["#couponValidity","[name=couponValidity]"]);
+      if (validity) out.set("유효기간", String(validity) === "0" ? "당일" : `${validity}일`); else out.set("유효기간","");
+
+      let cpp = (typeof window!=="undefined" && window.couponPurchasePolicy) ? window.couponPurchasePolicy : firstVal(["#couponPurchasePolicy","[name=couponPurchasePolicy]"]);
+      out.set("구매 정책 - 쿠폰", mapPolicy(cpp));
+      out.set("적립 확인  - 쿠폰", firstChecked(["#couponHasRewardProgram","[name=couponHasRewardProgram]"]) ? "예" : "");
+      let crp = (typeof window!=="undefined" && window.couponRewardPolicy) ? window.couponRewardPolicy : firstVal(["#couponRewardPolicy","[name=couponRewardPolicy]"]);
+      out.set("적립여부  - 쿠폰", mapReward(crp));
+
+      await fetch(GOOGLE_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"}, body: out.toString() });
+
+      try { document.querySelector('.overlay')?.classList?.add('show'); document.querySelector('.success-message')?.classList?.add('show'); setTimeout(() => location.reload(), 2500); }
+      catch(_e) { alert("제출 완료! Sheet2에서 확인해 주세요."); }
+
+    } catch(err) { console.error("Submit error:", err); alert("신청 중 오류가 발생했습니다. 다시 시도해주세요."); }
+    finally { if (btn) { btn.classList.remove('loading'); btn.disabled = false; } }
+  }
+
+  (function() { const formEl = document.getElementById('eventForm'); if (formEl) formEl.addEventListener('submit', __sheet2Submit); window.submitForm = __sheet2Submit; })();
+</script>
+<!-- === /GAS Sheet2 submit patch === -->
 </body>
 </html>
